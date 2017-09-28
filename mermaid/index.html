@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable:no"/>
+	<title>美人鱼</title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="referrer" content="always">
+	<link rel="stylesheet" type="text/css" href="./public/css/base.css">
+	<link rel="stylesheet" type="text/css" href="./public/css/common.css">
+	<link rel="stylesheet" type="text/css" href="./public/css/animate.min.css">
+	<link rel="stylesheet" type="text/css" href="./public/css/main.css">
+</head>
+<body>
+	<div class='main'>
+		<div class="loader" id="animate-loader" style="_display: none !important;">
+			<div class="loader-bar">
+				<div class="loader-progress" id="loader-progress"></div>
+			</div>
+		</div>
+		<div class="" id="app">				
+			<div class="mask-1" id="mask-1" style="position: fixed;left:0;top:0;width: 100%;height:100%;background-color: rgba(0,0,0,0.6);"></div>
+			<div class="game-wrap">
+				<!-- top logo -->
+				<img class="global-logo" :src="imgs.logo">
+				<!-- step 1 -->
+				<div class="step step-1 bg-cover animated fadeIn" v-bind:style="{backgroundImage:'url('+step_1.imgs.bg+')'}" v-show="step == 1">
+					<img class="bottom-bg" :src="imgs.bottom">
+					<img class="activity-rule-btn" :src="step_1.imgs.activity_rule_btn" @click="go_rule()">
+					<div class="bottom-btns">
+						<img :src="step_1.imgs.signup_btn" @click="incounter_girl()"><br>
+						<img :src="step_1.imgs.incounter_girl_btn" @click="step_6_next()">
+					</div>
+				</div>
+				<!-- step 2 -->
+				<div class="step step-2" v-bind:style="{backgroundImage: 'url(' + step_2.imgs.bg + ')'}" v-show="step == 2" style="background-size: 100% 100%;">
+					<div class="hot-area" v-for="(item, key) in step_2.hots" :style="{left: item.p.x + '%', top: item.p.y + '%'}" @click="signup(key)"></div>
+					<img class="next-btn" style="height: 1.4rem;" :src="step_2.imgs.tips">
+				</div>
+				<!-- step 3 -->
+				<div class="step step-3 bg-cover" :style="{backgroundImage: 'url(' + imgs.bg + ')'}" v-show="step == 3">
+					<div class="form bg-full" :style="{backgroundImage: 'url(' + step_3.imgs.form_bg + ')'}">
+						<span class="addr" style="margin-top:0.3rem;">{{step_2.city.city}}*{{step_2.city.place}}</span>
+						<input class="input name" type="text" name="name" v-model="step_3.form.name" placeholder="请输入姓名">
+						<input class="input phone" type="text" name="phone" v-model="step_3.form.phone" placeholder="请输入手机号">
+						<input class="input height" type="text" name="height" v-model="step_3.form.height" placeholder="请输入身高">
+						<div class="bg-full form-message" :style="{backgroundImage: 'url(' + step_3.imgs.message_board + ')'}">
+							<textarea class="input message" v-model="step_3.form.message" rows="2" maxlength="25" placeholder="请输入宣言"></textarea>	
+						</div>
+						<div class="tc" style="margin-top: 2rem;">
+							<img style="position: relative;height: 3rem;" v-model="step_3.form.message" :src="step_3.imgs.next_btn" @click="step_3_next()">
+						</div>
+					</div>
+					
+					
+				</div>
+				<!-- step 4 -->
+				<div class="step step-4 bg-full" v-show="step == 4" :style="{backgroundImage: 'url(' + imgs.bg + ')'}">
+					<div class="form">
+						<div class="picture-box bg-full pr" id="picture-box" :style="{backgroundImage: !step_4.bg?'url(' + step_4.imgs.picture_box_bg + ')' : 'none'}">
+							<input type="file" class="file-picker" id="filePicker" style="opacity: 0;">
+							<div class="editor" id="editor" v-show="step_4.bg"></div>
+							<!-- <canvas id="image-editor" style="width: 100%;height: 100%;background-color: rgba(0,0,0,0.5)" v-if="false"></canvas> -->
+						</div>
+						<div class="tool-box">
+							<img :src="step_4.imgs.bubble" style="margin-left: 0;" @click="setDecorate(0)">
+							<img :src="step_4.imgs.fish_tail" @click="setDecorate(1)">
+							<img :src="step_4.imgs.headdress" style="float: right;" @click="setDecorate(2)">
+						</div>
+					</div>
+					<img class="next-btn" style="margin-left:5.5rem;width:10rem;" :src="step_4.imgs.upload_btn" @click="step_4_next()">
+					<div class="again" id="again" :style="{backgroundImage: 'url(' + step_4.imgs.again + ')'}"><input type="file" name=""></div>
+				</div>
+				<div class="step step-5 bg-cover" :style="{backgroundImage:'url('+step_5.imgs.bg+')'}" v-show="step == 5">
+					<img :src="step_5.imgs.title" style="width: 23rem;margin-left: 2.5rem;margin-top:3rem;">
+					<img class="result" :src="step_4.result_base64" style="margin-bottom: 0.5rem;">
+					<div style="display: inline-block;width: 15rem;margin-left:0.5rem;vertical-align: top;">
+						<div style="width:14rem;height: 3rem;margin-left: 0.8rem;line-height: 3rem;border:2px solid #f49cc1;background-color: #fff;">
+							<div style="color: #2e2f7b;text-align: center;">第<span style="font-size: 1.2rem;">100000</span>位星女郎候选人</div>
+						</div>
+						<div class="message-box bg-full" :style="{backgroundImage: 'url('+step_5.imgs.message_box+')'}">
+							<span>{{step_3.form.message}}</span>
+						</div>
+					</div>
+					<img :src="step_5.imgs.qrcode" style="width: 10rem;vertical-align: top;">
+				</div>
+				<div class="step step-6 bg-cover" :style="{backgroundImage:'url('+step_6.imgs.bg+')'}" v-show="step == 6">
+					<img class="next-btn" :src="step_6.imgs.incounter_other_girls" @click="step_6_next()">
+					<img class="ps" style="bottom: 8rem;left:3rem;width: 11rem;" :src="step_6.imgs.long_press_btn">
+					<img class="ps" style="bottom: 6rem;left: 15rem;width: 8rem;" :src="step_6.imgs.qrcode">
+				</div>
+				<div class="step step-7 bg-cover" :style="{backgroundImage:'url('+step_7.imgs.bg+')'}" v-show="step == 7">
+					<div class="wrap">
+						<div>
+							<img class="w-100" :src="step_8.imgs.top">
+						</div>
+						<ul>
+						</ul>
+					</div>
+				</div>
+				<div class="step step-8 bg-cover" :style="{backgroundImage:'url('+step_8.imgs.bg+')'}" v-show="step == 8" @click="goStep(1);">
+					<div class="wrap">
+						<div>
+							<img style="width:90%;margin-left:10%;margin-top:1rem;margin-bottom:0.5rem;" class="w-100" :src="step_8.imgs.top">
+						</div>
+						<div style="background-color: #fff;margin:1rem auto;width: 90%;border-radius: 3px;margin-top:-3.5rem;padding:0rem 0.5rem;padding-bottom: 0.5rem;height:29rem;overflow-y: scroll;">
+							<img style="width:90%;margin-left:5%;margin-top:0.9rem;" class="w-100" :src="step_8.imgs.title_1">
+<pre style="padding:0.5rem 1rem;color:#333;white-space: pre-wrap;text-indent:2rem;font-size:12px;">
+2016年由周星驰执导，邓超、罗志祥、张雨绮、林允主演的《美人鱼》获得中国票房第二，仅次于战狼，创造当时33.6亿票房神话；
+  本节目是喜剧教父首档综艺，玩转美人鱼神级IP；
+  下一个全民皆知的“星女郎”从这里诞生，成名只有一步之遥，全国少女拭目以待；
+  2017年“星爷喊你来做鱼”，由腾讯视频主办，七度空间全程冠名，羽贝纳传媒承办，有着强大的明星阵容以及知名专业人士评委，为确保  次评选的权威性和公正性，经评选委员会研究决定，特制定本章程，以规范评选组织及评审、发榜等工作。
+</pre>
+							<img style="width:35%;margin-left:33%;margin-top:0.3rem;" class="w-100" :src="step_8.imgs.title_2">
+<pre style="padding:0.5rem 1rem;white-space: pre-wrap;overflow-y: scroll;text-align: left;box-shadow: 2px 5px 10px #ddd inset;font-size:12px;">
+一：大赛介绍
+大赛名称：星爷喊你来做鱼
+大赛组织：“星爷喊你来做鱼”组委会
+主办方：腾讯视频
+赞助商：七度空间
+二：参赛对象：
+年满16周岁的热赛表演的女生
+三：大赛评比标准：
+语言表达：用简练的语言阐述与“电影”有关的故事
+个人才艺：通过现场表演，展示自己最耀眼的一面
+综合素质：考察选手临场发挥及舞台应变能力
+四：赛制规划：
+每个城市一场海选，每场海选晋级1名选手入围
+</pre>
+						</div>
+						<div class="tc">
+							<img style="height:3.5rem;" :src="step_8.imgs.load_more_txt">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- pop box -->
+			<div class="pop-box" v-bind:class="{ none: pop.isHide }">
+				<div class="body _animated bounceIn" v-bind:class="{ animated: !pop.isHide, bounceOut: pop.fadeOut }">
+					<!-- rule pop box -->
+					<div>
+						<img class="w-100" style="width:70%;" :src="pop.bg">
+						<div class="info" style="padding: 0 5.5rem;bottom: auto;top:15.5rem;">
+							
+						</div>
+						<div class="operation">
+							<img @click.stop="closePopBox();" style="width: 8rem;bottom: 0;margin: 0.15rem;" class="btn" :src="pop.bg">
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript" src="./public/js/libs/zepto.min.js"></script>
+<!-- <script type="text/javascript" src="http://jackgit.github.io/image-editor/assets/js/jquery.js"></script> -->
+<script type="text/javascript" src="./public/js/libs/hammer.js"></script>
+<script type="text/javascript" src="./public/js/libs/imageEditor.js"></script>
+<script type="text/javascript" src="./public/js/libs/md5.js"></script>
+<script type="text/javascript" src="./public/js/common.js?43433"></script>
+<script type="text/javascript" src="./public/js/libs/vue.min.js"></script>
+<script type="text/javascript" src="./public/js/main.js"></script>
+</body>
+</html>

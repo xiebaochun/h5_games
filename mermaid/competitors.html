@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable:no"/>
+	<title>美人鱼</title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="referrer" content="always">
+	<link rel="stylesheet" type="text/css" href="./public/css/base.css">
+	<link rel="stylesheet" type="text/css" href="./public/css/common.css">
+	<link rel="stylesheet" type="text/css" href="./public/css/animate.min.css">
+	<style type="text/css">
+		.loader{position:fixed;top:0;left:0;width:100%;height:100%;background-color:#f4f4f4;z-index:100000}
+		.loader-bar{position:absolute;top:48%;left:50%;width:200px;height:6px;margin-left:-100px;background-color:#fff;border-radius:3px;overflow: hidden;}
+		.loader-progress{position:absolute;left:0;top:0;width:0;height:100%;background-color:#209f20; -webkit-transition: width 1s; transition: width 1s; border-radius:3px; }
+		html{background-color: #f6f6f6;}
+		/* Global logo that in the top */
+		.global-logo{
+			position: fixed;
+			top: 1rem;
+			left: 1rem;
+			width: 10rem;
+			z-index: 1000;
+		}
+
+
+		.step-7 .wrap{
+			height: 100%;
+			padding: 1.5rem;
+			/*overflow-y: scroll;*/
+		}
+		.step-7 .wrap ul{
+			display: inline-block;
+			width: 11.7rem;
+			vertical-align: top;
+			/*border: 1px solid #333;*/
+		}
+		.step-7 .wrap ul li{
+			display: inline-block;
+			width: 11.7rem;
+			margin-top: 0.5rem;
+			min-height: 2rem;
+			border: 1px solid #f597be;
+			
+		}
+		.step-7 .wrap ul li a{
+			display: block;
+			position: relative;
+		}
+		.load-more{
+			height: 3rem;
+			line-height: 3rem;
+			text-align: center;
+			color: #666;
+		}
+		.player-name{
+			position: absolute;
+			display: inline-block;
+			left: 1rem;
+			bottom: 1rem;
+			font-size: 1.3rem;
+			color: #2e2f7b;
+			font-weight:700;
+		}
+	</style>
+</head>
+<body>
+	<div class='main'>
+		<div class="loader" id="animate-loader" style="_display: none !important;">
+			<div class="loader-bar">
+				<div class="loader-progress" id="loader-progress"></div>
+			</div>
+		</div>
+		<div class="" id="app">				
+			<div class="game-wrap" v-show="is_inited">
+				<!-- top logo -->
+				<img :src="step_7.imgs.bg" style="position: fixed;left:0;top:0;width: 100%;height:100%;z-index: 1;">
+				<img class="global-logo" :src="imgs.logo">
+				<!-- step 7 -->
+				<div class="step step-7 bg-cover" style="z-index: 100;position: relative;">
+					<div class="wrap">
+						<div>
+							<img class="w-100" style="width:99.5%;" :src="step_7.imgs.top_banner" @click="goHome()">
+						</div>
+						<ul>
+							<li v-for="(item, key) in playerList" v-if="(key%2) == 0"><a :href="'./player.html?pid='+item.pid"><img class="w-100" :src="item.img">
+								<span class="player-name">{{item.name}}{{item.porder}}</span>
+							</a></li>
+						</ul>
+						<ul style="text-align: right;">
+							<li v-for="(item, key) in playerList" v-if="(key%2) == 1"><a :href="'./player.html?pid='+item.pid"><img class="w-100" :src="item.img">
+								<span class="player-name">{{item.name}}{{item.porder}}</span>
+							</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="load-more" style="" v-show="is_loading && has_loaded">加载中...</div>
+			</div>
+			<!-- pop box -->
+			
+		</div>
+	</div>
+<!-- <script type="text/javascript" src="./public/js/libs/zepto.min.js"></script> -->
+<script type="text/javascript" src="http://jackgit.github.io/image-editor/assets/js/jquery.js"></script> 
+<script type="text/javascript" src="./public/js/libs/md5.js"></script>
+<script type="text/javascript" src="./public/js/common.js"></script>
+<script type="text/javascript" src="./public/js/libs/vue.min.js"></script>
+<script type="text/javascript">
+	// images base path
+	var imageBase = './public/img/';
+	var debug = false;
+	var editor = null;
+	var size = 10;
+	$(function(){
+		var app = new Vue({
+		  el: '#app',
+		  data: {
+		  	is_inited: false,
+		  	imgs: {
+		  		bg: imageBase + 'bg.png',
+		  		logo: imageBase + 'logo.png',
+		  		bottom: imageBase + 'bottom.png'
+		  	},
+		  	is_loading:false,
+		  	has_loaded: false,
+		    pop:{
+		    	isHide: true,
+		    	fadeOut: false,
+		    	content: '恭喜',
+		    	bg:'../public/img/dialog.png',
+		    },
+		    step_7: {
+		    	imgs: {
+		    		bg: imageBase + 'step_7/bg.png',
+		    		load_more_txt: imageBase + 'step_7/load_more_txt.png',
+		    		top_banner: imageBase + 'step_7/top_banner.png'
+		    	}
+		    },
+		    playerList: []
+		  },
+		  filters: {
+			capitalize: function (value) {
+			  if (!value) return ''
+			  value = value.toString()
+			  return value.charAt(0).toUpperCase() + value.slice(1)
+			},
+			int: function(value) {
+				return parseInt(value);
+			}
+		  },
+		  created: function() {
+		  	self = this;
+		  	this.init();
+		  	//this.initImageEditor();
+		  },
+		  methods: {
+		  	init: function() {
+		  		this.loadPlayers();
+		  	},
+		  	loadPlayers: function(){
+		  		this.is_loading = true;
+		  		var timestamp = new Date().valueOf();
+		  		var sig = 'size=' + size + '&timestamp=' + timestamp;
+		  			sig = md5(sig).toUpperCase();
+		  		var postData = {
+		  			size: size,
+		  			timestamp: timestamp,
+		  			sig: sig
+		  		}
+		  		api_post('getPlayerList', postData, function(ret){
+		  			console.log(ret);
+		  			self.is_loading = false;
+		  			if(ret.code == 200){
+		  				self.playerList = ret.PlayerList;
+		  				setTimeout(function(){
+		  					self.is_inited  = true;
+		  				},500);
+		  			}
+		  		});
+		  	},
+		  	start: function(key) {
+
+		  	},
+		  	goHome: function() {
+		  		window.location.href = './index.html';
+		  	},
+		  	openPopBox: function(index) {
+		  		this.pop.index = index || 0;
+		  		this.pop.isHide = false;
+		  	},
+		  	closePopBox:function(callback) {
+		  		var self = this;
+		  		this.pop.fadeOut = true;
+		  		setTimeout(function(){
+		  			self.pop.fadeOut = false;
+		  			self.pop.isHide = true;
+		  			callback && callback();
+		  		},600);
+		  	}
+		  }
+		});
+
+		$(document).ready(function(){  
+	        var range = 50;             //距下边界长度/单位px  
+	        //var elemt = 500;           //插入元素高度/单位px  
+	        //var maxnum = 20;            //设置加载最多次数  
+	        //var num = 1;  
+	        var totalheight = 0;   
+	        //var main = $("#content");                     //主体元素  
+	        $(window).scroll(function(e){ 
+	            var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)  
+	            //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());  
+	            //console.log("页面的文档高度 ："+$(document).height());  
+	            //console.log('浏览器的高度：'+$(window).height());  
+	              
+	            totalheight = parseFloat($(window).height()) + parseFloat(srollPos);  
+	            if(($(document).height()-range) <= totalheight) {  
+	                // main.append("<div style='border:1px solid tomato;margin-top:20px;color:#ac"+(num%20)+(num%20)+";height:"+elemt+"' >hello world"+srollPos+"---"+num+"</div>");  
+	                // num++;  
+	                size += 6;
+	                app.$data.has_loaded = true;
+	                app.loadPlayers();
+	                // console.log('>>>>>>>>>>>>');
+	            }  
+	        });  
+	    });  
+	});
+	;(function(){
+		var $loader_pro = $('#loader-progress');
+		function Loader(){
+			this.init();
+		}
+		var p = Loader.prototype;
+		p.loadedCount = 0;
+		p.assets = [];
+		p.loadImage = function(images){
+			var self = this;
+			for(var index in images){
+				var img = new Image();
+				img.src = images[index];
+				img.addEventListener('load',function(){
+					self.loadedCount ++;
+					//log(this);
+					self.loaderUpdate(self.loadedCount);
+				});
+				this.assets.push(img);
+			}	
+		}
+		p.loaderUpdate = function(count){
+			//log(count);
+			$loader_pro.css({'width':(parseFloat(count)/this.assets.length  )*100+'%'});
+			//alert(count/(this.assets.length));
+			if(count >= (this.assets.length)){
+				//game.remove(game.loadProgressText);
+				setTimeout(function(){
+					$loader_pro.parent().parent().addClass('animated fadeOut');
+				},500);
+  				setTimeout(function(){
+					$loader_pro.parent().parent().remove();
+					//app.init();
+				},1000);
+			}
+		}
+		p.init = function(){
+			var self = this;
+			self.loadImage([
+					imageBase + 'logo.png',
+					imageBase + 'step_7/bg.png',
+		    		imageBase + 'step_7/load_more_txt.png',
+		    		imageBase + 'step_7/top_banner.png'
+				]);
+		}
+		var loader = new Loader();
+		window.loader = loader;
+	})();
+</script>
+</body>
+</html>

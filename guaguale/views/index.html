@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable:no"/>
+	<title>刮刮乐</title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="referrer" content="always">
+	<link rel="stylesheet" type="text/css" href="../public/css/base.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/common.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/animate.min.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/main.css">e
+</head>
+<body>
+	<div class='main'>
+		<div class="loader" id="animate-loader" style="display: block !important;">
+			<div class="loader-bar">
+				<div class="loader-progress" id="loader-progress"></div>
+			</div>
+		</div>
+		<img class="none" id="tulip" src="../public/img/guaguale/tickets/origin_layer.png">
+		<div class="" id="app" style="background: url(../public/img/guaguale/bg.png);background-size: 100% auto;background-repeat: no-repeat;" @click="stop();">				
+			<div class="mask-1" id="mask-1" style="position: fixed;left:0;top:0;width: 100%;height:100%;background-color: rgba(0,0,0,0.6);" v-if="(step == 2)"></div>
+			<!-- <img style="width:100%;" src=""> -->
+			<div class="game-wrap" style="z-index: 2;">
+				<div class="pr">
+					<div class="color-fff" style="padding: 0.5rem;position: fixed;top:0;left:0;width:100%;background-color: rgba(0,0,0,0.4);">
+						<span>username: {{ user_info.username }}</span>
+						&nbsp;
+						<span>hdcoin: {{ user_info.hdcoin }}</span>
+						<span class="fr" @click="openRecord();">游戏记录</span>
+					</div>
+					<img class="w-100 block" src="../public/img/guaguale/top_bg.png">
+					<img class="emotion" v-bind:src="emotion_url">
+					<img class="cat" v-bind:src="cat_url">
+					<div class="top-msg" v-bind:style="{ fontSize: top_tip.fontSize + 'rem' }" v-html="top_tip.msg"></div>
+					<div class="ticket-wrap" v-bind:style="{backgroundImage: 'url('+line+')'}">
+						<ul>
+							<li class="ticket-1" v-bind:class="{ animate_scroll_1: is_running }">
+								<img src="../public/img/guaguale/tickets/ticket_min.png" @click="guaAction($event);">
+								<img src="../public/img/guaguale/tickets/ticket_min.png" @click="guaAction();">
+								<img src="../public/img/guaguale/tickets/ticket_min.png" @click="guaAction();">
+								<img src="../public/img/guaguale/tickets/ticket_min.png" v-bind:class="{unvisible: is_selected}" @click="guaAction($event);">
+								<div class="realTicket" style="display: inline-block;" v-bind:class="{ scale_up: is_selected }" v-show="is_selected">
+									<!-- <img src="../public/img/guaguale/tickets/ticket.png"> -->
+									<img style="width:100%;height:100%;position: absolute;left:0;top:0;" src="../public/img/guaguale/tickets/ticket_min.png" v-show="!is_prize_bg">
+									<img style="width:100%;" src="../public/img/guaguale/tickets/ticket.png">
+									<div class="ggl" id="top">
+										<img class="result-bg" v-bind:src="prize_bg" v-show="is_prize_bg">
+										<span style="position: absolute;left: 6rem;top: 3rem;font-size: 1.5rem;color: red;" v-show="is_selected_">{{ result_info }}</span>
+										<canvas class="guagua-canvas" id="c1"></canvas>
+									</div>
+								</div>
+								<img src="../public/img/guaguale/tickets/ticket_min.png" @click="guaAction();">
+								<img src="../public/img/guaguale/tickets/ticket_min.png" @click="guaAction();">
+							</li>
+							<li class="ticket-2" v-bind:class="{ animate_scroll_2: is_running }">
+								<img src="../public/img/guaguale/tickets/ticket_min.png">
+								<img src="../public/img/guaguale/tickets/ticket_min.png">
+								<img src="../public/img/guaguale/tickets/ticket_min.png">
+								<img src="../public/img/guaguale/tickets/ticket_min.png">
+								<img src="../public/img/guaguale/tickets/ticket_min.png">
+								<img src="../public/img/guaguale/tickets/ticket_min.png">
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="bottom pr">	
+				<ul class="prize-info">
+					<li v-for="(prize, key) in prizes" v-bind:style="{left: prize.left + 'rem',width: prize.width + 'rem'}">
+						<img class="w-100" v-bind:src="prize.img">		
+					</li>				
+				</ul>
+				<img class="try-btn" v-bind:src="button_url" @click.stop="try_();">
+			</div>
+			<div class="tc color-fff" style="position: fixed;z-index: 12;bottom: 0;left: 0;width: 100%;line-height: 3rem;" v-if="step == 2 && is_running">
+				点击屏幕停止滚动
+			</div>
+			<div class="light-wrap" v-if="step ==2 && !is_selected">
+				<img class="light-1" src="../public/img/guaguale/light.png">
+				<img class="light-2" src="../public/img/guaguale/light.png">
+			</div>
+			<div class="prize-record-wrap" v-bind:class="{none: !record_box.is_show}" @click.stop="closeRecord();">
+				<div class="prize-record" v-bind:class="{fly_up: record_box.is_show}">
+					<!-- <img class="w-100" src="../public/img/guaguale/prize_record.png"> -->
+					<div class="record-header"><span>刮刮乐记录</span></div>
+					<ul style="height: 100%;overflow-y: scroll;">
+						<li v-for="(record, key) in records">
+							<span class="fl">{{key+1}}</span>
+							<span class="fr">{{record.scratchTicAward}}</span>
+						</li>
+					</ul>
+				</div>
+			</div>	
+			<div class="pop-box" v-bind:class="{ none: pop.isHide }">
+				<div class="body _animated bounceIn" v-bind:class="{ animated: !pop.isHide, bounceOut: pop.fadeOut }">
+					<img class="w-100" v-bind:src="pop.bg">
+					<div class="info">
+						<span>{{ pop.content }}</span>
+					</div>
+					<div class="operation">
+						<img @click.stop="closePopBox();" class="btn" src="../public/img/guaguale/buttons/ok.png">
+						<!-- <img @click="recieveGift" class="btn" src="../public/img/recieve_btn.png"> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript" src="../public/js/libs/zepto.min.js"></script>
+<script type="text/javascript" src="../public/js/common.js"></script>
+<script type="text/javascript" src="../public/js/libs/vue.min.js"></script>
+<script type="text/javascript" src="../public/js/main.js"></script>
+</body>
+</html>

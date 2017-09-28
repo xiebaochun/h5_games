@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable:no"/>
+	<title>这条路，你敢走吗？-红军长征主题H5</title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="referrer" content="always">
+	<link rel="stylesheet" type="text/css" href="../public/css/base.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/common.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/animate.min.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/main.css">
+</head>
+<body>
+	<div class='main'>
+		<div class="loader" id="animate-loader" style="_display: block !important;">
+			<div class="loader-bar">
+				<div class="loader-progress" id="loader-progress"></div>
+			</div>
+		</div>
+		<div class="" id="app">				
+			<div class="mask-1" id="mask-1" style="position: fixed;left:0;top:0;width: 100%;height:100%;background-color: rgba(0,0,0,0.6);"></div>
+			<div class="game-wrap">
+				<!-- activity index page -->
+				<div class="step step-0 bg-cover" style="background-repeat: no-repeat;" :style="{backgroundImage:'url('+step_0.imgs.bg+')'}" v-show="step == 0">
+					<img class="logo" :src="step_0.imgs.logo">
+					<img style="position: absolute;bottom: 0;width:100%;left:0;" :src="step_0.imgs.front">
+				</div>
+				<!-- step 1 -->
+				<div class="step step-1 bg-cover animated fadeIn" v-bind:style="{backgroundImage:'url('+step_1.imgs.bg+')'}" v-show="step == 1">
+					<img class="logo" :src="step_1.imgs.logo">
+					<img class="title" :src="step_1.imgs.title">
+					<div class="content justify">
+						全国大促活动横跨<span class="color-red">34</span>个省，
+						<span class="color-red">265</span>个市，为惠及每个地区的业
+						主朋友们，<span class="color-red">10000</span>名冠珠人已经
+						准备好为每一名参与本次活动的
+						业主竭心竭力地提供优质的服务，
+						开启为期xx天的钜惠征途。
+					</div>
+					<img class="left-bottom-tips" :src="step_1.imgs.left_bottom_tips">
+					<img class="right-bottom-hongjun" :src="step_1.imgs.right_bottom_hongjun">
+				</div>
+				<!-- step 2 -->
+				<div class="step step-2" v-bind:style="{backgroundImage: 'url(' + step_2.imgs.bg + ')'}" v-show="step == 2">
+					<img class="hand" :src="step_2.imgs.hand" v-show="!step_2.is_started">
+					<img class="ps" v-for="(star, key) in step_2.stars" :src="star.status ? step_2.imgs.red_star : step_2.imgs.black_star" :style="{left: star.position.x + '%',top: star.position.y + '%',width: '3rem'}" @click.stop="start(key);">
+					<img class="ps" v-for="(arrow, key) in step_2.arrows" :src="step_2.imgs['arrow_' + (key+1)]" :style="{left: arrow.position.x + '%',top: arrow.position.y + '%',width: arrow.width + 'rem'}" v-show="arrow.status" :class="{arrow_scale_up: (key == (answer.index -1) && key < 3), arrow_scale_up_ : (key == (answer.index -1) && key >= 3)}">
+					<img class="rule-btn" :src="step_2.imgs.rule_btn" @click.stop="openPopBox(0);">
+				</div>
+				<!-- step 3 -->
+				<div class="step step-3 bg-cover" :style="{backgroundImage: 'url(' + step_1.imgs.bg + ')'}" v-show="step == 3">
+					<img class="top-img" :src="answer.imgs.top_img">
+					<div class="story-image" :style="{backgroundImage: 'url('+answer.story_image+')'}"></div>
+					<img class="front-rect" :src="answer.imgs.front_rect">
+					<img :src="answer.random_icon">
+					<div class="question-wrap">
+						<div class="question" style="line-height: 1.5rem; font-size: 0.85rem;">
+							{{ questions[answer.index].title }}
+						</div>
+						<ul class="candidate-answers">
+							<li v-for="(item, key) in questions[answer.index].candidates" @click.stop="selectAnswer(key);" :style="{color: (key == questions[answer.index].answer) ? '#339933' : '#ee3333'}"><span class="vm" :class="{answer_color: key != answer.selected_key}">{{ item }}</span>&nbsp;<img class="vm" style="width: 1rem;" :src="(key == questions[answer.index].answer) ? answer.imgs.right_icon:answer.imgs.wrong_icon" v-show="key == answer.selected_key"></li>
+						</ul>
+					</div>
+				</div>
+				<!-- step 4 -->
+				<div class="step step-4 bg-cover" v-show="step == 4" :style="{backgroundImage: 'url(' + step_1.imgs.bg + ')'}" >
+					<img class="ps" style="top:0.5rem;left:0;width: 100%;height:100%;" :src="step_3.imgs.front_rect">
+					<div class="ps" style="top:2rem;left:2rem;width: 85%;">
+						<img class="w-100":src="step_3.imgs.form_bg">
+						<div class="ps input-wrap" style="top: 7.5rem;left: 0;width: 100%;">
+							<div class="input-field">
+								<img class="icon" :src="step_2.imgs.star_icon">
+								<input type="text" name="username" placeholder="姓名">
+							</div>
+							<div class="input-field">
+								<img class="icon" :src="step_2.imgs.star_icon">
+								<input type="tel" name="phone" placeholder="电话" onkeyup="javascript:;">
+							</div>
+							<div class="input-field">
+								<img class="icon" :src="step_2.imgs.star_icon">
+								<input type="text" name="addr" placeholder="地址">
+							</div>
+							<img style="display: inline-block; width: 10rem;margin: 1rem 6.5rem 0.5rem;" :src="step_3.imgs.ensure_btn" @click.stop="submit_info();">
+							<img style="display: inline-block; width: 10rem;margin: 0rem 6.5rem;" :src="step_3.imgs.go_last_btn" @click.stop="go_last();">
+						</div>
+					</div>
+				</div>
+				<div class="step step-5 bg-cover" :style="{backgroundImage:'url('+step_0.imgs.bg+')'}" v-show="step == 5">
+					<img class="logo" :src="step_0.imgs.logo">
+					<img class="activity-time" :src="step_5.imgs.activity_time">
+					<img class="daiyanren" :src="step_5.imgs.daiyanren">
+					<img class="title animated" :class="{fadeIn: (step == 5)}" :src="step_5.imgs.title">
+					<img class="content animated" :class="{fadeInUpBig: (step == 5)}" :src="step_5.imgs.content">
+				</div>
+			</div>
+			<!-- pop box -->
+			<div class="pop-box" v-bind:class="{ none: pop.isHide }">
+				<div class="body _animated bounceIn" v-bind:class="{ animated: !pop.isHide, bounceOut: pop.fadeOut }">
+					<!-- rule pop box -->
+					<div v-show="pop.index == 0">
+						<img class="w-100" style="width:70%;" :src="step_2.imgs.game_rule_bg">
+						<div class="info" style="padding: 0 5.5rem;bottom: auto;top:15.5rem;">
+							<ul v-if="false">
+								<li v-for="(item, key) in rule_contents" style="margin-bottom: 0.5rem;"><img style="width:1rem;" :src="step_2.imgs.star_icon">&nbsp;{{key+1}}、<span v-html="item"></span></li>
+							</ul>
+						</div>
+						<div class="operation">
+							<img @click.stop="closePopBox();" style="width: 8rem;bottom: 0;margin: 0.15rem;" class="btn" :src="step_2.imgs.rule_ensure">
+						</div>
+					</div>
+					<!-- wrong pop box -->
+					<div style="min-height:38rem;" v-show="pop.index == 1">
+						<img class="w-100" style="width:65%;" :src="answer.imgs.answer_wrong_box">
+						<div class="info">
+						</div>
+						<div class="operation">
+							<img style="width: 8rem;" @click.stop="retry();" class="btn" :src="answer.imgs.reanswer_btn" v-if="!questions[answer.index].has_retried">
+							<img @click.stop="_continue();" style="width: 8rem;" class="btn" :src="answer.imgs.continue_btn">
+						</div>
+					</div>
+					<!-- right pop box -->
+					<div style="min-height:38rem;" v-show="pop.index == 2">
+						<img class="w-100" style="width:65%;" :src="answer.imgs.answer_right_box">
+						<div class="info" style="padding: 0px 6rem 0 7rem;bottom: auto;top:20rem;text-indent: 2rem;">
+							<span class="animated" v-if="!answer.show_congratulation">{{ questions[answer.index].hostory }}</span>
+							<div class="tc animated" style="margin-top:2.2rem;font-size: 1.5rem;font-weight: 700;text-indent: 0;" v-if="answer.show_congratulation">您成功攻破<span class="color-red" v-text="answer.answer_right_count >=6?'全部':answer.answer_right_count"></span>个关卡，获得<span class="color-red">{{answer.hongbao[answer.answer_right_count]}}</span>元红包</div>
+						</div>
+						<div class="operation">
+							<img @click.stop="_continue();" style="width: 8rem;" class="btn" :src="answer.imgs.continue_btn" v-show="answer.answer_right_count < 6 && answer.index < 5">
+							<img @click.stop="getHongbao();" style="width: 8rem;" class="btn" :src="answer.imgs.get_btn" v-show="answer.answer_right_count >= 6 || (answer.answer_right_count ==5 && answer.index == 5)">
+
+						</div>
+					</div>
+					<!-- right pop box -->
+					<div style="min-height:38rem;" v-show="pop.index == 3">
+						<img class="w-100" style="width:65%;" :src="answer.imgs.wrong_end">
+						<div class="info" style="padding: 0px 5rem 0 7rem;bottom: auto;top:20rem;text-indent: 2rem;">
+							<div class="tc" style="margin-top:5.2rem;font-size: 1.5rem;font-weight: 700;text-indent: 0;">您成功攻破<span class="color-red">{{answer.answer_right_count}}</span>个关卡，获得<span class="color-red">{{answer.hongbao[answer.answer_right_count]}}</span>元红包</div>
+						</div>
+						<div class="operation">
+							<img @click.stop="getHongbao();" style="width: 8rem;" class="btn" :src="answer.imgs.get_btn">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript" src="../public/js/libs/zepto.min.js"></script>
+<script type="text/javascript" src="../public/js/common.js"></script>
+<script type="text/javascript" src="../public/js/libs/vue.min.js"></script>
+<script type="text/javascript" src="../public/js/main.js"></script>
+</body>
+</html>

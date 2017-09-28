@@ -1,0 +1,225 @@
+.border-right-line{border-right: 1px solid #f4f4f4;}
+.border-bottom-line{border-bottom: 1px solid #f4f4f4;}
+
+.color-gray{color: #b8b8b8;}
+.color-link{color: #008710;}
+.bg-gray{background-color: #b8b8b8 }
+.bg-yellow{background-color: #ffe816;}
+
+.f1{font-size: 1rem;}
+.f2{font-size: 1.2rem;}
+.game-mask{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+img{
+    -webkit-user-select:none;
+    user-select:none;
+    -webkit-touch-callout:none;
+    touch-callout:none;
+}
+.success-pop{
+    position: fixed;
+    top:5%;
+    left: 10%;
+    width:80%;
+    line-height: 20px;
+    background-color:rgba(0,0,0,0.5);
+    font-size: 14px;
+    color:#fff;
+    text-align: center;
+    border-radius:5px;
+    padding:0.5rem 1rem;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+.share-tips{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 2;
+}
+
+/*.fadeIn{
+    display: block;
+    animation: fadeIn 0.5s forwards;
+}
+@keyframes fadeIn{
+    from{opacity: 0;transform: scale(0.2);}
+    20%{transform: scale(1.02);}
+    to{opacity: 1;transform: scale(1);}
+}*/
+
+
+/*animation*/
+/* This is the animation code. */
+@-webkit-keyframes shake {
+   from { transform: scale(2.0); }
+   to   { transform: scale(1.0); }
+}
+
+/* This is the element that we apply the animation to. */
+.shake {
+	-webkit-animation: shake;
+    animation: shake;
+}
+
+.rotate{
+	-webkit-animation-duration: 0.5s;
+	animation-duration: 0.5s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-name: water_rotate;
+	animation-name: water_rotate;
+}
+
+@-webkit-keyframes water_rotate {
+	0% {
+		-webkit-transform: rotateZ(0deg);
+    	transform: rotateZ(0deg);
+	}
+	100% {
+		-webkit-transform: rotateZ(-30deg);
+    	transform: rotateZ(-30deg);	
+	}
+}
+@keyframes water_rotate {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+    }
+    100% {
+        -webkit-transform: rotateZ(-30deg);
+        transform: rotateZ(-30deg); 
+    }
+}
+
+@keyframes headShake{
+	0% {
+		-webkit-transform: rotateZ(0deg);
+    	transform: rotateZ(0deg);
+	}
+	100% {
+		-webkit-transform: rotateZ(-30deg);
+    	transform: rotateZ(-30deg);	
+	}
+}
+
+/*loader*/
+.data-loader {
+  position: relative;
+  margin: 0 auto;
+  width: 30px;
+}
+.data-loader:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.circular {
+  -webkit-animation: rotate 2s linear infinite;
+          animation: rotate 2s linear infinite;
+  height: 100%;
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+          animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@-webkit-keyframes rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+@-webkit-keyframes color {
+  100%,
+  0% {
+    stroke: #d62d20;
+  }
+  40% {
+    stroke: #0057e7;
+  }
+  66% {
+    stroke: #008744;
+  }
+  80%,
+  90% {
+    stroke: #ffa700;
+  }
+}
+@keyframes color {
+  100%,
+  0% {
+    stroke: #d62d20;
+  }
+  40% {
+    stroke: #0057e7;
+  }
+  66% {
+    stroke: #008744;
+  }
+  80%,
+  90% {
+    stroke: #ffa700;
+  }
+}
+/*_loader*/
