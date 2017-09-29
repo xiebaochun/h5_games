@@ -40,17 +40,7 @@ margin: 2.1rem 0.8rem;}
 	bottom: 0;
 	width: 100%;
 }
-.step .pre-btn{
-	position: absolute;
-	display: inline-block;
-	right: 0.5rem;
-	top: 0.5rem;
-	height: 3rem;
-	z-index: 100;
-}
-.step .pre-btn:active{
-	opacity: 0.8;
-}
+
 .step .next-btn{
 	position: absolute;
 	bottom: 1.5rem;
@@ -176,20 +166,7 @@ margin: 2.1rem 0.8rem;}
 	width: 100%;
 	height: 100%;
 }	
-.step-4 .again{
-	position: fixed;
-    left: 3rem;
-    bottom: 1.5rem;
-    width: 10rem;
-    height: 3rem;
-    background-size: 100% 100%;
-}
-.step-4 .again input{
-	display: block;
-	width: 100%;
-	height: 100%;
-	opacity: 0;
-}
+
 .step-5 .result{
 	display: inline-block;
 	width: 21rem;

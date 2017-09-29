@@ -1,299 +1,418 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable:no"/>
-	<title>美人鱼</title>
-	<meta name="keywords" content="">
-	<meta name="description" content="">
-	<meta name="referrer" content="always">
-	<link rel="stylesheet" type="text/css" href="./public/css/base.css">
-	<link rel="stylesheet" type="text/css" href="./public/css/common.css">
-	<link rel="stylesheet" type="text/css" href="./public/css/animate.min.css">
-	<link rel="stylesheet" type="text/css" href="./public/css/main.css">
-	<style type="text/css">
-		.flash{animation-iteration-count: infinite;animation-duration: 2s !important;}
-	</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>星爷喊你来做鱼</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="referrer" content="always">
+    <link rel="stylesheet" type="text/css" href="./public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="./public/css/common.css">
+    <link rel="stylesheet" type="text/css" href="./public/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="./public/css/main.css">
+    <style type="text/css">
+    .flash {
+        animation-iteration-count: infinite;
+        animation-duration: 2s !important;
+    }
+    </style>
+    <!-- 接入斐波那契 
+    <script id="fiboDataSDK" type="text/javascript" src="http://sdk.fibodata.com/data/datasdk.min.js?pfid=AIDPmspP&appid=dab53a95772f351c456468ddd8db8061">
+	</script> -->
+    <!-- 微信自定义分享 -->
+    <!-- <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript">
+		   
+		var url = document.URL;
+		//alert(url);
+		var signature = "";
+		if(url.substr(url.length-1) == "?"){
+			signature = "<%=signature2%>" ;
+		}else{
+			signature = "<%=signature%>" ;
+		}
+
+		var shareTitle = "星爷喊你来做鱼";   
+		var shareDesc = "电影《美人鱼》&剧版《美人鱼2》 演员甄选城市直通赛";
+		var shareImg = "http://t1.miaoxing100.cn/H5/Mermaid/public/img/logo2.png";
+		//var shareLink = "<%=basePath%>";
+		var shareLink = url;
+		//alert(shareLink);
+
+		var appId = "<%=appId%>";
+		var timestamp = "<%=timestamp%>";
+		var noncestr = "<%=noncestr%>";
+		//alert(appId+","+signature+","+timestamp+","+noncestr);
+
+		wx.config({
+			debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+			appId: appId, // 必填，公众号的唯一标识
+			timestamp: timestamp, // 必填，生成签名的时间戳
+			nonceStr: noncestr, // 必填，生成签名的随机串
+			signature: signature, // 必填，签名，见附录1
+			jsApiList: [
+					'onMenuShareTimeline',
+					'onMenuShareAppMessage',
+					'showOptionMenu'
+				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+
+		});
+
+		wx.ready(function() {
+			share();
+			//$('#video').get(0).play();
+			//$('#video').get(0).pause();
+			//$('#video').get(0).play();
+		});
+		wx.error(function(res) {
+			alert('wx.error: ' + JSON.stringify(res));
+		});
+
+		function share() {
+			wx.showOptionMenu();
+			wx.onMenuShareTimeline({
+				title: shareTitle, // 分享标题
+				link: shareLink, // 分享链接
+				imgUrl: shareImg,
+				trigger: function(res) {
+					//    alert('用户点击分享到朋友圈');
+				},
+				success: function() {
+					// 用户确认分享后执行的回调函数
+					dataSDK.share('timeline');
+				},
+				cancel: function() {
+					// 用户取消分享后执行的回调函数
+					//alert('已取消');
+				} 
+				//,fail: function (res) {
+				//    alert('wx.onMenuShareTimeline:fail: '+JSON.stringify(res));
+				//}
+			});
+			wx.onMenuShareAppMessage({
+				title: shareTitle, // 分享标题
+				link: shareLink, // 分享链接
+				imgUrl: shareImg,
+				desc: shareDesc, // 分享描述
+				type: '', // 分享类型,music、video或link，不填默认为link
+				dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+				trigger: function(res) {
+					//alert('用户点击分享给朋友');
+				},
+				success: function(res) {
+					// 用户确认分享后执行的回调函数
+					//alert('已分享');
+					dataSDK.share('friend');
+				},
+				cancel: function(res) {
+						// 用户取消分享后执行的回调函数
+						//alert('已取消');
+					} //,fail: function (res) {
+					//    alert('wx.onMenuShareAppMessage:fail: '+JSON.stringify(res));
+					//}
+
+			});
+		}
+		document.body.addEventListener('touchmove', function (evt) {
+        //In this case, the default behavior is scrolling the body, which
+			//would result in an overflow.  Since we don't want that, we preventDefault.
+			if (!evt._isScroller) {
+				evt.preventDefault();
+			}
+		});
+	</script> -->
 </head>
+
 <body>
-	<div class='main'>
-		<div class="loader" id="animate-loader" style="_display: none !important;">
-			<div class="loader-bar">
-				<div class="loader-progress" id="loader-progress"></div>
-			</div>
-		</div>
-		<div class="" id="app">				
-			<div class="mask-1" id="mask-1" style="position: fixed;left:0;top:0;width: 100%;height:100%;background-color: rgba(0,0,0,0.6);"></div>
-			<div class="game-wrap">
-				<!-- top logo -->
-				<!-- <img class="global-logo" :src="imgs.logo" v-show="!is_share"> -->
-				<div class="step step-5 bg-cover" :style="{backgroundImage:'url('+step_5.imgs.bg+')'}" v-show="step == 5">
-					<div style="position: fixed;left:0;top:0;width:100%;height:100%;z-index: 1001;" v-show="step_5.poster">
-						<img :src="step_5.poster" style="display:block;width:100%;height:100%;">
-					</div>
-					<!-- <img :src="step_5.poster" v-show="step_5.poster" style="position: fixed;left:0;top:0;width:100%;height:100%;z-index: 1001;"> -->
-					<div v-show="is_share" style="position: fixed;z-index: 102;left:0;top:0;width:100%;height:100%;background-color: rgba(0,0,0,0.5);" @click="hideShare()">
-						<img style="position: absolute;right:0;top:0;width:20rem;" :src="step_5.imgs.shareTips">
-					</div>
-					<img :src="step_5.imgs.title" style="width: 23.5rem;margin-left: 2rem;margin-top:3rem;">
-					<div class="result bg-cover" :style="{backgroundImage:'url('+player.img+')'}"></div>
-					<div style="display: inline-block;width: 15rem;margin-left:0.5rem;vertical-align: top;">
-						<div style="width:14rem;height: 3rem;margin-left: 0.7rem;margin-top:0rem;line-height: 3rem;border:2px solid #f49cc1;background-color: #fff;">
-							<div style="color: #2e2f7b;text-align: center;">第<span style="font-size: 1.2rem;">1{{player.porder}}</span>位星女郎候选人</div>
-						</div>
-						<div class="message-box bg-full tc" :style="{backgroundImage: 'url('+step_5.imgs.message_box+')'}">
-							<span>{{player.declaration}}</span>
-						</div>
-					</div>
-					<img :src="step_5.imgs.qrcode" style="width: 10rem;vertical-align: top;">
-					<canvas id="present" style="display: block;position: fixed;left:0;top:0;width:100%;height:100%;"></canvas>
-					<div class="tc animated flash" style="position: absolute;left: 0;bottom: 1rem;width: 100%;">
-						<img style="height: 2rem;" :src="step_5.imgs.up"><br>
-						<img style="height: 1rem" :src="step_5.imgs.down_txt">
-					</div>
-				</div>
-				<div class="step step-6 bg-cover" :style="{backgroundImage:'url('+step_6.imgs.bg+')'}" v-show="step == 6">
-					<img class="next-btn" :src="step_6.imgs.incounter_other_girls" @click="step_6_next()">
-					<img class="ps" style="bottom: 8rem;left:3rem;width: 11rem;" :src="step_6.imgs.long_press_btn">
-					<img class="ps" style="bottom: 6rem;left: 15rem;width: 8rem;" :src="step_6.imgs.qrcode">
-				</div>
-				<div class="hide">
-					<img id="bg" src="./public/img/step_5/raw_bg.png">
-					<img id="player" src="http://owvh0dbfc.bkt.clouddn.com/26_564_456456">
-				</div>
-			</div>
-		</div>
-	</div>
-<script type="text/javascript" src="./public/js/libs/zepto.min.js"></script>
-<script type="text/javascript" src="./public/js/libs/hammer.js"></script>
-<script type="text/javascript" src="./public/js/libs/md5.js"></script>
-<script type="text/javascript" src="./public/js/common.js"></script>
-<script type="text/javascript" src="./public/js/libs/vue.min.js"></script>
-<script type="text/javascript">
-	// images base path
-	var imageBase = './public/img/';
-	var debug = false;
-	var editor = null;
-	$(function(){
-		var app = new Vue({
-		  el: '#app',
-		  data: {
-		    step: 5,
-		    is_share: false,
-		    player: {},
-		    imgs: {
-		    	bg: imageBase + 'bg.png',
-		    	logo: imageBase + 'logo.png',
-		    	bottom: imageBase + 'bottom.png'
-		    },
-		    step_5: {
-		    	index: 1,
-		    	playerImg: '',
-		    	imgs: {
-		    		bg: imageBase + 'step_5/bg.png',
-		    		competitor_photos_txt: imageBase + 'step_5/competitor_photos_txt.png',
-		    		qrcode: imageBase + 'step_5/qrcode.png',
-		    		title: imageBase + 'step_5/title.png',
-		    		message_box: imageBase + 'step_5/message_box.png',
-		    		down_txt: imageBase + 'step_6/down_txt.png',
-		    		up: imageBase + 'step_6/up.png',
-		    		shareTips: imageBase + 'step_5/shareTips.png'
-		    	},
-		    	poster: '',
-		    },
-		    step_6: {
-		    	imgs: {
-		    		competition_time_txt: imageBase + 'step_6/competition_time_txt.png',
-		    		incounter_other_girls: imageBase + 'step_6/incounter_other_girls.png',
-		    		long_press_btn: imageBase + 'step_6/long_press_btn.png',
-		    		qrcode: imageBase + 'step_6/qrcode.png',
-		    		time_schedule: imageBase + 'step_6/time_schedule.png',
-		    		bg: imageBase + 'step_6/bg.png'
-		    	}
-		    },
-		  },
-		  filters: {
-			capitalize: function (value) {
-			  if (!value) return ''
-			  value = value.toString()
-			  return value.charAt(0).toUpperCase() + value.slice(1)
-			},
-			int: function(value) {
-				return parseInt(value);
-			}
-		  },
-		  created: function() {
-		  	self = this;
-		  	var pid = parseInt(getQueryString('pid'));
-		  	//if(!!!pid) return;
-		  	var timestamp = new Date().valueOf();
-		  	var sig = 'pid=' + pid + '&timestamp=' + timestamp;
-		  		sig = md5(sig).toUpperCase();
-		  	var postData = {
-		  		pid: pid,
-		  		timestamp: timestamp,
-		  		sig: sig
-		  	}
-		  	console.log(postData);
-		  	api_post('getPlayer', postData, function(ret){
-		  		console.log(ret);
-		  		self.is_loading = false;
-		  		if(ret.code == 200){
-		  			self.player = ret.Player;
-		  			//self.playerList = ret.PlayerList;
-		  			self.generatePoster();
-		  		}else{
-		  			alert(ret.msg || '服务器开小猜了');
-		  		}
-		  	});
-		  	setTimeout(function(){
-		  		self.is_share = true;
-		  	},2000);
-		  	//this.initImageEditor();
-		  },
-		  methods: {
-		  	init: function() {
-		  		
-		  	},
-		  	start: function(key) {
+    <div class='main'>
+        <div class="loader" id="animate-loader" style="_display: none !important;">
+            <div class="loader-bar">
+                <div class="loader-progress" id="loader-progress"></div>
+            </div>
+        </div>
+        <div class="" id="app">
+            <div class="mask-1" id="mask-1" style="position: absolute;left:0;top:0;width: 100%;height:100%;background-color: rgba(0,0,0,0.6);z-index:-1;display:none"></div>
+            <div class="game-wrap">
+                <div class="step step-5 bg-cover" :style="{backgroundImage:'url('+step_5.imgs.bg+')'}" v-show="step == 5">
+                    <img :src="step_5.poster" v-show="step_5.poster" style="position: absolute;left:0;top:0;width:100%;height:100%;z-index: 98;padding:0;">
+                    <div v-show="is_share" style="position: absolute;left:0;top:0;width:100%;height:100%;background-color: rgba(0,0,0,0.5);z-index: 99999;" @click="hideShare()">
+                        <img style="position: absolute;right:0;top:0;width:20rem;" :src="step_5.imgs.shareTips">
+                    </div>
+                    <img :src="step_5.imgs.title" style="width: 23.5rem;margin-left: 2rem;margin-top:3rem;">
+                    <div class="result bg-cover" :style="{backgroundImage:'url('+player.img+')'}"></div>
+                    <div style="display: inline-block;width: 15rem;margin-left:0.5rem;vertical-align: top;z-index:-1;">
+                        <div style="width:14rem;height: 3rem;margin-left: 0.7rem;margin-top:0rem;line-height: 3rem;border:2px solid #f49cc1;background-color: #fff;">
+                            <div style="color: #2e2f7b;text-align: center;">第<span style="font-size: 1.2rem;">1{{player.porder}}</span>位星女郎候选人</div>
+                        </div>
+                        <div class="message-box bg-full tc" :style="{backgroundImage: 'url('+step_5.imgs.message_box+')'}">
+                            <span>{{player.declaration}}</span>
+                        </div>
+                    </div>
+                    <img :src="step_5.imgs.qrcode" style="width: 10rem;vertical-align: top;">
+                    <canvas id="present" style="display: block;position: absolute;left:0;top:0;width:100%;height:100%;display:none;"></canvas>
+                    <div class="tc animated flash" style="position: absolute;left: 0;bottom: 1rem;width: 100%;z-index:99;">
+                        <img style="height: 2rem;" :src="step_5.imgs.up">
+                        <br>
+                        <img style="height: 1rem" :src="step_5.imgs.down_txt">
+                    </div>
+                </div>
+                <div class="step step-6 bg-cover" :style="{backgroundImage:'url('+step_6.imgs.bg+')'}" v-show="step == 6">
+                    <img class="next-btn" :src="step_6.imgs.incounter_other_girls" @click="step_6_next()">
+                    <img class="ps" style="bottom: 8rem;left:3rem;width: 11rem;" :src="step_6.imgs.long_press_btn">
+                    <img class="ps" style="bottom: 6rem;left: 15rem;width: 8rem;" :src="step_6.imgs.qrcode">
+                    <img class="pre-btn" :src="imgs.pre_btn" @click="pre()">
+                </div>
+                <div class="" style="z-index:-1">
+                    <img id="bg" src="./public/img/step_5/raw_bg.png">
+                    <img id="player" src="" crossorigin="anonymous">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="./public/js/libs/zepto.min.js"></script>
+    <script type="text/javascript" src="./public/js/libs/hammer.js"></script>
+    <script type="text/javascript" src="./public/js/libs/md5.js"></script>
+    <script type="text/javascript" src="./public/js/common.js"></script>
+    <script type="text/javascript" src="./public/js/libs/vue.min.js"></script>
+    <script type="text/javascript">
+    // images base path
+    var imageBase = './public/img/';
+    var debug = false;
+    var editor = null;
+    $(function() {
+        var app = new Vue({
+            el: '#app',
+            data: {
+                step: 5,
+                is_share: false,
+                player: {},
+                imgs: {
+                    bg: imageBase + 'bg.png',
+                    logo: imageBase + 'logo.png',
+                    bottom: imageBase + 'bottom.png',
+                    pre_btn: imageBase + 'pre_btn.png'
+                },
+                step_5: {
+                    index: 1,
+                    playerImg: '',
+                    imgs: {
+                        bg: imageBase + 'step_5/bg.png',
+                        competitor_photos_txt: imageBase + 'step_5/competitor_photos_txt.png',
+                        qrcode: imageBase + 'step_5/qrcode.png',
+                        title: imageBase + 'step_5/title.png',
+                        message_box: imageBase + 'step_5/message_box.png',
+                        down_txt: imageBase + 'step_6/down_txt.png',
+                        up: imageBase + 'step_6/up.png',
+                        shareTips: imageBase + 'step_5/shareTips.png'
+                    },
+                    poster: '',
+                },
+                step_6: {
+                    imgs: {
+                        competition_time_txt: imageBase + 'step_6/competition_time_txt.png',
+                        incounter_other_girls: imageBase + 'step_6/incounter_other_girls.png',
+                        long_press_btn: imageBase + 'step_6/long_press_btn.png',
+                        qrcode: imageBase + 'step_6/qrcode.png',
+                        time_schedule: imageBase + 'step_6/time_schedule.png',
+                        bg: imageBase + 'step_6/bg.png'
+                    }
+                },
+            },
+            filters: {
+                capitalize: function(value) {
+                    if (!value) return ''
+                    value = value.toString()
+                    return value.charAt(0).toUpperCase() + value.slice(1)
+                },
+                int: function(value) {
+                    return parseInt(value);
+                }
+            },
+            created: function() {
+                self = this;
+                var pid = parseInt(getQueryString('pid'));
+                if (!!!pid) return;
+                var timestamp = new Date().valueOf();
+                var sig = 'pid=' + pid + '&timestamp=' + timestamp;
+                sig = md5(sig).toUpperCase();
+                var postData = {
+                    pid: pid,
+                    timestamp: timestamp,
+                    sig: sig
+                }
+                api_post('getPlayer', postData, function(ret) {
+                    console.log(ret);
 
-		  	},
-		  	generatePoster: function() {
-		  		var //cvs = document.createElement('canvas'),
-		  			cvs = document.getElementById('present'),
-            		ctx = cvs.getContext('2d');
+                    if (ret.code == 200) {
+                        $('#player').attr('src', ret.Player.img)
+                        self.player = ret.Player;
+                        setTimeout(function() {
+                            self.generatePoster();
+                        }, 1000)
+                        //self.playerList = ret.PlayerList;
 
-            	var bg = new Image();
-            		bg.src = './public/img/step_5/raw_bg.png';
-            	var player = $('#player').get(0);
-            		//player.src = self.player.img;
-            		cvs.width = 750;
-            		cvs.height = 1200;
-            		//bg.crossOrigin = "*";
-            		bg.setAttribute('crossOrigin', 'anonymous');
-            		// // //player.crossOrigin = "*";
-            		player.setAttribute('crossOrigin', 'anonymous');
-            	bg.onload = function() {
-            		ctx.save();
-            		ctx.drawImage(bg,0,0,750,1200,0,0,750,1200);
-            		ctx.drawImage(player,0,0,player.width,player.height,80,220,580,680);
-            		ctx.lineWidth="2";
-            		ctx.strokeStyle="#f49cc1";
-            		ctx.rect(80,220,580,680);
-					ctx.stroke();
-            		ctx.font = '32px serif';
-            		ctx.fillStyle = '#2e2f7b';
-            		ctx.fillText('第'+self.player.porder+'位星女郎候选人', 85, 970);
-            		ctx.restore();
-            		ctx.font = '32px serif';
-            		ctx.fillStyle = '#ea45a4';
-            		ctx.textAlign="center";
-            		ctx.fillText(''+self.player.declaration, 230, 1130);
-            		ctx.restore();
-            		self.step_5.poster = cvs.toDataURL() || '';
-            		//console.log(cvs.toDataURL());
-            	}
-            	player.onload = function() {
+                    } else {
+                        alert(ret.msg || '服务器开小猜了');
+                    }
+                });
 
-            	}
-            	
-		  	},
-		  	hideShare: function(){
-		  		self.is_share = false;
-		  	},
-		  	// step 6 next
-		  	step_6_next: function() {
-		  		location && (location.href = './competitors.html');
-		  		window && window.location && (window.location.href = './competitors.html');
-		  		//this.step = 7;
-		  	},
-		  }
-		});
+                //this.initImageEditor();
+            },
+            methods: {
+                init: function() {
 
-		function getQueryString(name) {
-		    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-		    var r = window.location.search.substr(1).match(reg);
-		    if (r != null) {
-		        return unescape(r[2]);
-		    }
-		    return null;
-		}
-		// setTimeout(function(){
-		// 	var hammer = new Hammer(document.getElementById("app"));
-		// 	console.log(hammer);
-		// 	hammer.onswipe = function(ev) { 
-		// 		console.log(ev);
-		// 		alert();
-		// 	}; // 滑动
-		// },2000);
-		var start_y = 0,end_y=0;
-		$('#app').on('touchstart',function(evt){
-			console.log(evt);
-			start_y = evt.targetTouches[0].pageY;
-			console.log(start_y);
-		});
+                },
+                start: function(key) {
 
-		$('#app').on('touchend',function(evt){
-			console.log(evt);
-			end_y = evt.changedTouches[0].pageY;
-			if(start_y - end_y > 70){
-				app.$data.step = 6;
-			}
-			console.log(end_y);
-		});
+                },
+                pre: function(){
+                    this.step--;
+                },
+                generatePoster: function() {
+                    var cvs = document.getElementById('present'),
+                        ctx = cvs.getContext('2d');
 
-		
-	});
+                    var bg = new Image();
+                    bg.src = imageBase + 'step_5/raw_bg.png';
+                    var player = $('#player').get(0);
+                    //player.src = self.player.img;
+                    cvs.width = 750;
+                    cvs.height = 1200;
+                    bg.setAttribute('crossOrigin', 'anonymous');
+                    player.setAttribute('crossOrigin', 'anonymous');
+                    bg.onload = function() {
+                        ctx.save();
+                        ctx.drawImage(bg, 0, 0, 750, 1200, 0, 0, 750, 1200);
+                        ctx.drawImage(player, 0, 0, player.width, player.height, 80, 220, 580, 680);
+                        ctx.lineWidth = "2";
+                        ctx.strokeStyle = "#f49cc1";
+                        ctx.rect(80, 220, 580, 680);
+                        ctx.stroke();
+                        ctx.font = '32px serif';
+                        ctx.fillStyle = '#2e2f7b';
+                        ctx.fillText('第' + self.player.porder + '位星女郎候选人', 85, 970);
+                        ctx.restore();
+                        ctx.font = '32px serif';
+                        ctx.fillStyle = '#ea45a4';
+                        ctx.textAlign = "center";
+                        ctx.fillText('' + self.player.declaration, 230, 1130);
+                        ctx.restore();
 
-	;(function(){
-		var $loader_pro = $('#loader-progress');
-		function Loader(){
-			this.init();
-		}
-		var p = Loader.prototype;
-		p.loadedCount = 0;
-		p.assets = [];
-		p.loadImage = function(images){
-			var self = this;
-			for(var index in images){
-				var img = new Image();
-				img.src = images[index];
-				img.addEventListener('load',function(){
-					self.loadedCount ++;
-					//log(this);
-					self.loaderUpdate(self.loadedCount);
-				});
-				this.assets.push(img);
-			}	
-		}
-		p.loaderUpdate = function(count){
-			//log(count);
-			$loader_pro.css({'width':(parseFloat(count)/this.assets.length  )*100+'%'});
-			//alert(count/(this.assets.length));
-			if(count >= (this.assets.length)){
-				//game.remove(game.loadProgressText);
-				setTimeout(function(){
-					$loader_pro.parent().parent().addClass('animated fadeOut');
-				},500);
-  				setTimeout(function(){
-					$loader_pro.parent().parent().remove();
-					//app.init();
-				},1000);
-			}
-		}
-		p.init = function(){
-			var self = this;
-			self.loadImage([
-				imageBase + 'step_5/bg.png',
-	    		imageBase + 'step_5/competitor_photos_txt.png',
-	    		imageBase + 'step_5/qrcode.png',
-	    		imageBase + 'step_5/title.png',
-	    		imageBase + 'step_5/message_box.png'
-				]);
-		}
-		var loader = new Loader();
-		window.loader = loader;
-	})();
-</script>
+                        self.step_5.poster = cvs.toDataURL("image/png") || '';
+                        //console.log(cvs.toDataURL());
+                        self.is_loading = false;
+                        setTimeout(function() {
+                            self.is_share = true;
+                        }, 2000);
+                    }
+                    player.onload = function() {
+
+                    }
+
+                },
+                hideShare: function() {
+                    self.is_share = false;
+                },
+                // step 6 next
+                step_6_next: function() {
+                    //window.location.href = 'http://t1.miaoxing100.cn/H5/Mermaid/competitors.jsp';
+                    location && (location.href = 'http://t1.miaoxing100.cn/H5/Mermaid/competitors.jsp');
+                    window && window.location && (window.location.href = 'http://t1.miaoxing100.cn/H5/Mermaid/competitors.jsp');
+                    //this.step = 7;
+                },
+            }
+        });
+
+        function getQueryString(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        var start_y = 0,
+            end_y = 0;
+        /*$('#app').on('touchstart',function(evt){
+        	console.log(evt);
+        	start_y = evt.targetTouches[0].pageY;
+        	console.log(start_y);
+        });
+
+        $('#app').on('touchend',function(evt){
+        	console.log(evt);
+        	end_y = evt.changedTouches[0].pageY;
+        	if(start_y - end_y > 70){
+        		app.$data.step = 6;
+        	}
+        	console.log(end_y);
+        });*/
+        var hammertime = new Hammer(document.getElementById("app"));
+        /*var canClick = true;*/
+
+        hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+
+        hammertime.on("swipeup", function(e) {
+            app.$data.step = 6;
+        });
+
+
+    });
+
+    (function() {
+        var $loader_pro = $('#loader-progress');
+
+        function Loader() {
+            this.init();
+        }
+        var p = Loader.prototype;
+        p.loadedCount = 0;
+        p.assets = [];
+        p.loadImage = function(images) {
+            var self = this;
+            for (var index in images) {
+                var img = new Image();
+                img.src = images[index];
+                img.addEventListener('load', function() {
+                    self.loadedCount++;
+                    //log(this);
+                    self.loaderUpdate(self.loadedCount);
+                });
+                this.assets.push(img);
+            }
+        }
+        p.loaderUpdate = function(count) {
+            //log(count);
+            $loader_pro.css({ 'width': (parseFloat(count) / this.assets.length) * 100 + '%' });
+            //alert(count/(this.assets.length));
+            if (count >= (this.assets.length)) {
+                //game.remove(game.loadProgressText);
+                setTimeout(function() {
+                    $loader_pro.parent().parent().addClass('animated fadeOut');
+                }, 500);
+                setTimeout(function() {
+                    $loader_pro.parent().parent().remove();
+                    //app.init();
+                }, 1000);
+            }
+        }
+        p.init = function() {
+            var self = this;
+            self.loadImage([
+                imageBase + 'step_5/bg.png',
+                imageBase + 'step_5/competitor_photos_txt.png',
+                imageBase + 'step_5/qrcode.png',
+                imageBase + 'step_5/title.png',
+                imageBase + 'step_5/message_box.png',
+                imageBase + 'step_5/raw_bg.png'
+            ]);
+        }
+        var loader = new Loader();
+        window.loader = loader;
+    })();
+    </script>
 </body>
+
 </html>

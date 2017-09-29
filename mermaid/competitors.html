@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable:no"/>
-	<title>美人鱼</title>
+	<title>星爷喊你来做鱼</title>
 	<meta name="keywords" content="">
 	<meta name="description" content="">
 	<meta name="referrer" content="always">
@@ -15,7 +15,6 @@
 		.loader-bar{position:absolute;top:48%;left:50%;width:200px;height:6px;margin-left:-100px;background-color:#fff;border-radius:3px;overflow: hidden;}
 		.loader-progress{position:absolute;left:0;top:0;width:0;height:100%;background-color:#209f20; -webkit-transition: width 1s; transition: width 1s; border-radius:3px; }
 		html{background-color: #f6f6f6;}
-		/* Global logo that in the top */
 		.global-logo{
 			position: fixed;
 			top: 1rem;
@@ -23,18 +22,14 @@
 			width: 10rem;
 			z-index: 1000;
 		}
-
-
 		.step-7 .wrap{
 			height: 100%;
 			padding: 1.5rem;
-			/*overflow-y: scroll;*/
 		}
 		.step-7 .wrap ul{
 			display: inline-block;
 			width: 11.7rem;
 			vertical-align: top;
-			/*border: 1px solid #333;*/
 		}
 		.step-7 .wrap ul li{
 			display: inline-block;
@@ -42,7 +37,6 @@
 			margin-top: 0.5rem;
 			min-height: 2rem;
 			border: 1px solid #f597be;
-			
 		}
 		.step-7 .wrap ul li a{
 			display: block;
@@ -61,9 +55,95 @@
 			bottom: 1rem;
 			font-size: 1.3rem;
 			color: #2e2f7b;
-			font-weight:700;
 		}
 	</style>
+	<!-- 接入斐波那契 
+    <script id="fiboDataSDK" type="text/javascript" src="http://sdk.fibodata.com/data/datasdk.min.js?pfid=AIDPmspP&appid=dab53a95772f351c456468ddd8db8061">
+	</script> -->
+	
+	<!-- 微信自定义分享 -->
+	<!-- <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript">
+		   
+		var url = document.URL;
+		//alert(url);
+		var signature = "";
+		if(url.substr(url.length-1) == "?"){
+			signature = "<%=signature2%>" ;
+		}else{
+			signature = "<%=signature%>" ;
+		}
+
+		var shareTitle = "星爷喊你来做鱼";   
+		var shareDesc = "电影《美人鱼》&剧版《美人鱼2》 演员甄选城市直通赛";
+		var shareImg = "http://t1.miaoxing100.cn/H5/Mermaid/public/img/logo2.png";
+		var shareLink = url;
+
+		var appId = "<%=appId%>";
+		var timestamp = "<%=timestamp%>";
+		var noncestr = "<%=noncestr%>";
+
+		wx.config({
+			debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+			appId: appId, // 必填，公众号的唯一标识
+			timestamp: timestamp, // 必填，生成签名的时间戳
+			nonceStr: noncestr, // 必填，生成签名的随机串
+			signature: signature, // 必填，签名，见附录1
+			jsApiList: [
+					'onMenuShareTimeline',
+					'onMenuShareAppMessage',
+					'showOptionMenu'
+				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+
+		});
+
+		wx.ready(function() {
+			share();
+			//$('#video').get(0).play();
+			//$('#video').get(0).pause();
+		});
+		wx.error(function(res) {
+			alert('wx.error: ' + JSON.stringify(res));
+		});
+
+		function share() {
+			wx.showOptionMenu();
+			wx.onMenuShareTimeline({
+				title: shareTitle, // 分享标题
+				link: shareLink, // 分享链接
+				imgUrl: shareImg,
+				trigger: function(res) {
+					//    alert('用户点击分享到朋友圈');
+				},
+				success: function() {
+					// 用户确认分享后执行的回调函数
+					dataSDK.share('timeline');
+				},
+				cancel: function() {
+					// 用户取消分享后执行的回调函数
+					//alert('已取消');
+				} 
+			});
+			wx.onMenuShareAppMessage({
+				title: shareTitle, // 分享标题
+				link: shareLink, // 分享链接
+				imgUrl: shareImg,
+				desc: shareDesc, // 分享描述
+				type: '', // 分享类型,music、video或link，不填默认为link
+				dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+				trigger: function(res) {
+					//alert('用户点击分享给朋友');
+				},
+				success: function(res) {
+					// 用户确认分享后执行的回调函数
+					dataSDK.share('friend');
+				},
+				cancel: function(res) {
+						// 用户取消分享后执行的回调函数
+				} 
+			});
+		}
+	</script> -->
 </head>
 <body>
 	<div class='main'>
@@ -84,13 +164,13 @@
 							<img class="w-100" style="width:99.5%;" :src="step_7.imgs.top_banner" @click="goHome()">
 						</div>
 						<ul>
-							<li v-for="(item, key) in playerList" v-if="(key%2) == 0"><a :href="'./player.html?pid='+item.pid"><img class="w-100" :src="item.img">
-								<span class="player-name">{{item.name}}{{item.porder}}</span>
+							<li v-for="(item, key) in playerList" v-if="(key%2) == 0"><a :href="'http://t1.miaoxing100.cn/H6/Mermaid/index.jsp?pid='+item.pid"><img class="w-100" :src="item.img">
+								<span class="player-name" style="font-weight: bold;left:.2rem;">{{item.name}}  {{item.porder}}号</span>
 							</a></li>
 						</ul>
 						<ul style="text-align: right;">
-							<li v-for="(item, key) in playerList" v-if="(key%2) == 1"><a :href="'./player.html?pid='+item.pid"><img class="w-100" :src="item.img">
-								<span class="player-name">{{item.name}}{{item.porder}}</span>
+							<li v-for="(item, key) in playerList" v-if="(key%2) == 1"><a :href="'http://t1.miaoxing100.cn/H6/Mermaid/index.jsp?pid='+item.pid"><img class="w-100" :src="item.img">
+								<span class="player-name" style="font-weight: bold;left:.2rem;">{{item.name}}  {{item.porder}}号</span>
 							</a></li>
 						</ul>
 					</div>
@@ -101,8 +181,8 @@
 			
 		</div>
 	</div>
-<!-- <script type="text/javascript" src="./public/js/libs/zepto.min.js"></script> -->
-<script type="text/javascript" src="http://jackgit.github.io/image-editor/assets/js/jquery.js"></script> 
+<script type="text/javascript" src="./public/js/libs/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="http://jackgit.github.io/image-editor/assets/js/jquery.js"></script>  -->
 <script type="text/javascript" src="./public/js/libs/md5.js"></script>
 <script type="text/javascript" src="./public/js/common.js"></script>
 <script type="text/javascript" src="./public/js/libs/vue.min.js"></script>
@@ -120,7 +200,8 @@
 		  	imgs: {
 		  		bg: imageBase + 'bg.png',
 		  		logo: imageBase + 'logo.png',
-		  		bottom: imageBase + 'bottom.png'
+		  		bottom: imageBase + 'bottom.png',
+		  		pre_btn: imageBase + 'pre_btn.png'
 		  	},
 		  	is_loading:false,
 		  	has_loaded: false,
@@ -169,7 +250,6 @@
 		  			sig: sig
 		  		}
 		  		api_post('getPlayerList', postData, function(ret){
-		  			console.log(ret);
 		  			self.is_loading = false;
 		  			if(ret.code == 200){
 		  				self.playerList = ret.PlayerList;
@@ -183,7 +263,7 @@
 
 		  	},
 		  	goHome: function() {
-		  		window.location.href = './index.html';
+		  		window.location.href = 'http://t1.miaoxing100.cn/H5/Mermaid/index.jsp';
 		  	},
 		  	openPopBox: function(index) {
 		  		this.pop.index = index || 0;
@@ -210,10 +290,6 @@
 	        //var main = $("#content");                     //主体元素  
 	        $(window).scroll(function(e){ 
 	            var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)  
-	            //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());  
-	            //console.log("页面的文档高度 ："+$(document).height());  
-	            //console.log('浏览器的高度：'+$(window).height());  
-	              
 	            totalheight = parseFloat($(window).height()) + parseFloat(srollPos);  
 	            if(($(document).height()-range) <= totalheight) {  
 	                // main.append("<div style='border:1px solid tomato;margin-top:20px;color:#ac"+(num%20)+(num%20)+";height:"+elemt+"' >hello world"+srollPos+"---"+num+"</div>");  
@@ -221,7 +297,6 @@
 	                size += 6;
 	                app.$data.has_loaded = true;
 	                app.loadPlayers();
-	                // console.log('>>>>>>>>>>>>');
 	            }  
 	        });  
 	    });  
@@ -277,3 +352,5 @@
 </script>
 </body>
 </html>
+
+

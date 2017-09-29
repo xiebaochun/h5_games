@@ -11,13 +11,13 @@ $(function(){
 	    imgs: {
 	    	bg: imageBase + 'bg.png',
 	    	logo: imageBase + 'logo.png',
-	    	bottom: imageBase + 'bottom.png'
+	    	bottom: imageBase + 'bottom.png',
+	    	pre_btn: imageBase + 'pre_btn.png'
 	    },
 	    pop:{
 	    	isHide: true,
 	    	fadeOut: false,
 	    	content: '恭喜',
-	    	bg:'../public/img/dialog.png',
 	    },
 	    step_1: {
 	    	imgs: {
@@ -96,10 +96,10 @@ $(function(){
 	    },
 	    step_3: {
 	    	form: {
-	    		name: 'name', // 姓名
-	    		phone: '13083961278', // 电话
-	    		height: '170', // 身高
-	    		message: 'liu yan', // 留言
+	    		name: '', // 姓名
+	    		phone: '', // 电话
+	    		height: '', // 身高
+	    		message: '', // 留言
 	    	},
 	    	imgs: {
 	    		addr_pointer: imageBase + 'step_3/addr_pointer.png',
@@ -119,7 +119,7 @@ $(function(){
 	    		headdress_big: imageBase + 'step_4/headdress_big.png',
 	    		picture_box_bg: imageBase + 'step_4/picture_box_bg.png',
 	    		upload_btn: imageBase + 'step_4/upload_btn.png',
-	    		again: imageBase + 'step_4/again.png'	
+				again: imageBase + 'step_4/again.png'	
 	    	},
 	    	bg: '',
 	    	result_base64: '',
@@ -220,6 +220,9 @@ $(function(){
 	  	goStep: function(index){
 	  		this.step = index;
 	  	},
+	  	pre: function(){
+	  		this.step--;
+	  	},
 	  	// step-1 我要报名
 	  	signup: function(index) {
 	  		if(index >= 7) {alert('敬请期待！');return};
@@ -244,6 +247,10 @@ $(function(){
 	  			alert('请填写必要信息');
 	  			return;
 	  		}
+			if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.step_3.form.phone))) {
+                alert('请输入正确手机号');
+				return;
+            }
 	  		this.step = 4;
 	  		setTimeout(function(){
 	  			initEditor();
@@ -287,6 +294,10 @@ $(function(){
 
 	  	},
 	  	step_4_next: function() {
+			if(!this.step_4.bg){
+				alert('请先上传图片');
+			}
+			
 	  		confirmImage();
 
 	  		var timestamp = new Date().valueOf();
@@ -303,19 +314,19 @@ $(function(){
 	  			timestamp: timestamp,
 	  			sig: sig
 	  		}
-	  		console.log(postData);
 	  		api_post('savePlayerInfo', postData, function(ret){
-	  			console.log(ret);
 	  			self.is_loading = false;
 	  			if(ret.code == 200){
-	  				window.location.href = './player.html?pid=' + (ret.Player && ret.Player.pid);
+	  				window.location.href = 'http://t1.miaoxing100.cn/H6/Mermaid/index.jsp?pid=' + (ret.Player && ret.Player.pid);
 	  				//self.playerList = ret.PlayerList;
 	  				// self.step = 5;
 	  				// setTimeout(function(){
 	  				// 	self.step = 6;
 	  				// },3000);
-	  			}else{
-	  				alert(ret.msg || '服务器开小猜了');
+	  			}else if(ret.code == '08'){
+					alert('您已经提交过信息');
+				}else{
+	  				alert('网络异常，请稍候尝试！');
 	  			}
 	  		});
 
@@ -325,7 +336,7 @@ $(function(){
 	  	},
 	  	// step 6 next
 	  	step_6_next: function() {
-	  		window.location.href = './competitors.html';
+	  		window.location.href = 'http://t1.miaoxing100.cn/H5/Mermaid/competitors.jsp';
 	  		//this.step = 7;
 	  	},
 	  	openPopBox: function(index) {
@@ -392,13 +403,10 @@ $(function(){
 		var loader = new Loader();
 		window.loader = loader;
 	})();
-	// setTimeout(function(){
-	// 	//console.log(app.$data);
-	// },2000);
+	
 	// 图片编辑
 	function initEditor(){
 		var editorBox = document.getElementById('picture-box');
-		console.log(editorBox.clientWidth);
 		editor = $('#editor').ImageEditor({
 			imageUrls: [
 				imageBase + 'empty.png',
@@ -416,10 +424,11 @@ $(function(){
 		});
 	}
 	
+	
+
 	function confirmImage() {
 		var cvs = editor.mergeImage(),
 			$img = $('<img>');
-		console.log(cvs.toDataURL().length);
 		app.$data.step_4.result_base64 = cvs.toDataURL();
 		//$img.attr('src', cvs.toDataURL());
 		// //$('#outputs').append($img);
@@ -436,14 +445,11 @@ $(function(){
 	var handleFileSelect = function(evt) {
 	    var files = evt.target.files;
 	    var file = files[0];
-	    //console.log(file.size);
 	    app.$data.step_4.result_size = file.size;
 	    if (files && file) {
 	        var reader = new FileReader();
 	        reader.onload = function(readerEvt) {
 	            var binaryString = readerEvt.target.result;
-	            //console.log(readerEvt.target);
-	            //console.log(btoa(binaryString));
 	            //app.$data.step_4.bg = btoa(binaryString);
 	            app.step_4_set_bg(btoa(binaryString));
 	            //document.getElementById("base64textarea").value = btoa(binaryString);
@@ -453,7 +459,6 @@ $(function(){
 	    }
 	};
 	if (window.File && window.FileReader && window.FileList && window.Blob) {
-		console.log(document.getElementById('filePicker'));
 	    document.getElementById('filePicker').addEventListener('change', handleFileSelect, false);
 	    document.getElementById('again').addEventListener('change', handleFileSelect, false);
 	} else {

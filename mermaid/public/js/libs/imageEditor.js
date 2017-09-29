@@ -573,7 +573,7 @@
           //console.log(image);
           that._drawImage(image, ctx);
         });
-        //console.log(cvs);
+        console.log(cvs);
         return cvs;
       }
 
