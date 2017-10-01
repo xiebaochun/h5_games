@@ -9,8 +9,6 @@ $(function() {
         el: '#app',
         data: {
             step: 1,
-            tips:0,
-            editor: null,
             imgs: {
                 bg: imageBase + 'bg.png',
                 logo: imageBase + 'logo.png',
@@ -143,7 +141,6 @@ $(function() {
                         },
                         scale: .3,
                         has_added: false,
-                        image: null
                     },
                     {
                         img: './public/img/' + 'step_4/fish_tail_big1.png',
@@ -153,7 +150,6 @@ $(function() {
                         },
                         scale: .3,
                         has_added: false,
-                        image: null
                     },
                     {
                         img: './public/img/' + 'step_4/headdress_big1.png',
@@ -163,7 +159,6 @@ $(function() {
                         },
                         scale: 0.3,
                         has_added: false,
-                        image: null
                     },
                     {
                         img: './public/img/' + 'step_4/gx_big.png',
@@ -173,7 +168,6 @@ $(function() {
                         },
                         scale: 0.3,
                         has_added: false,
-                        image: null
                     },
                     {
                         img: './public/img/' + 'step_4/my_big.png',
@@ -183,7 +177,6 @@ $(function() {
                         },
                         scale: 0.3,
                         has_added: false,
-                        image: null
                     },
                     {
                         img: './public/img/' + 'step_4/ct_big.png',
@@ -193,7 +186,6 @@ $(function() {
                         },
                         scale: 0.3,
                         has_added: false,
-                        image: null
                     }
                 ],
             },
@@ -307,31 +299,23 @@ $(function() {
                 }
                 this.step = 4;
                 setTimeout(function() {
-                    if(!self.editor) self.editor = initEditor();
+                    initEditor();
                 }, 500);
             },
             // step-4 选择装饰
             setDecorate: function(index) {
                 var decorate = this.step_4.decorations[index];
                 //editor.setImage(decorate.img,(index + 1),true, decorate.scale, null);
-                // if (this.step_4.decorations[index].has_added) {
-                //     editor.removeImage(this.step_4.decoration_map[index] + 1);
-                //     this.step_4.decorations[index].has_added = false;
-                //     decoration_index--;
-                //     return;
-                // }
-                // this.step_4.decorations[index].has_added = true;
-                // this.step_4.decoration_map[index] = decoration_index;
-                // decoration_index++;
-                if(decorate.image){
-                    editor.removeImage(decorate.image);
-                    self.step_4.decorations[index].image = null;
+                if (this.step_4.decorations[index].has_added) {
+                    editor.removeImage(this.step_4.decoration_map[index] + 1);
+                    this.step_4.decorations[index].has_added = false;
+                    decoration_index--;
                     return;
                 }
-                editor.addImage(decorate.img, true, decorate.scale,function(image){
-                    //console.log(image);
-                    self.step_4.decorations[index].image = image;
-                });
+                this.step_4.decorations[index].has_added = true;
+                this.step_4.decoration_map[index] = decoration_index;
+                decoration_index++;
+                editor.addImage(decorate.img, true, decorate.scale);
             },
             // step-4 初始化图片编辑器
             initImageEditor: function() {
@@ -369,12 +353,11 @@ $(function() {
                     timestamp: timestamp,
                     sig: sig
                 }
-                this.tips=1
                 api_post('savePlayerInfo', postData, function(ret) {
                     self.is_loading = false;
-                    this.tips=0
                     if (ret.code == 200) {
                         window.location.href = 'http://t1.miaoxing100.cn/H6/Mermaid/index.jsp?pid=' + (ret.Player && ret.Player.pid);
+               
                     } else if (ret.code == '08') {
                         alert('您已经提交过信息');
                     } else {
@@ -476,7 +459,6 @@ $(function() {
                 editor.selectImage(0);
             }
         });
-        return editor;
     }
 
 

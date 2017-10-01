@@ -94,6 +94,14 @@
             newHeight = naturalHeight * ratio,
             top = 0, left = 0;
 
+            console.log('containerWidth');
+            console.log(containerWidth);
+            console.log(containerHeight);
+            console.log('naturalWidth');
+            console.log(naturalWidth);
+            console.log(naturalHeight);
+            console.log('ratio');
+            console.log(ratio);
 
         // center image in the editor
         if((containerWidth - newWidth) > (containerHeight - newHeight))
@@ -198,8 +206,6 @@
       _onPan: function(e) {
         var image = this.activeImage;
 
-        if(!image) return;
-
         if(e.type == 'panstart') {
           this.startPan = {
             x: image.transform.translate.x,
@@ -293,7 +299,7 @@
           defaultObj = $.extend(defaultObj, url);
         }
 
-        //console.log('pre process', defaultObj);
+        console.log('pre process', defaultObj);
         return defaultObj;
       },
 
@@ -325,7 +331,7 @@
         this._updateImageTransform(image);
       },
 
-      addImage: function(url, select, scale, cb) {
+      addImage: function(url, select, scale) {
         url = this._preProcessImageUrl(url);
         if(select === undefined)
           select = true;
@@ -358,7 +364,6 @@
         $img.on('load', function() {
           image.$imgWrapper = $('<span data-index="'+(index)+'">').append($(this));
           image.img = this;
-          image.index = index;
           that._placeImage(image);
           that._updateImageTransform(image);
           var loaded = 0;
@@ -377,7 +382,6 @@
 
             that.options.onImagesLoaded && that.options.onImagesLoaded();
           }
-          cb&&cb(image);
         });
 
         $img.attr('src', url.url);
@@ -514,11 +518,8 @@
               image.$imgWrapper.remove();
           }
 
-          if(i > index){
-            image.order--;
-            image.$imgWrapper.data('index',(image.order-1));
-          }
-
+          if(i > index)
+            image.order --;
 
           return keep;
         }.bind(this));
@@ -568,13 +569,11 @@
 
         cvs.width = this.options.width;
         cvs.height = this.options.height;
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, this.options.width, this.options.height);
         this.images.forEach(function(image) {
           //console.log(image);
           that._drawImage(image, ctx);
         });
-        //console.log(cvs);
+        console.log(cvs);
         return cvs;
       }
 

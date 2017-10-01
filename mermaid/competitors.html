@@ -7,9 +7,9 @@
 	<meta name="keywords" content="">
 	<meta name="description" content="">
 	<meta name="referrer" content="always">
-	<link rel="stylesheet" type="text/css" href="./public/css/base.css">
-	<link rel="stylesheet" type="text/css" href="./public/css/common.css">
-	<link rel="stylesheet" type="text/css" href="./public/css/animate.min.css">
+	<link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/base.css">
+	<link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/common.css">
+	<link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/animate.min.css">
 	<style type="text/css">
 		.loader{position:fixed;top:0;left:0;width:100%;height:100%;background-color:#f4f4f4;z-index:100000}
 		.loader-bar{position:absolute;top:48%;left:50%;width:200px;height:6px;margin-left:-100px;background-color:#fff;border-radius:3px;overflow: hidden;}
@@ -25,6 +25,13 @@
 		.step-7 .wrap{
 			height: 100%;
 			padding: 1.5rem;
+		}
+		.step-7 .back_btn{
+			position: fixed;
+			top: 1rem;
+			right: 1rem;
+			width: 3rem;
+			z-index: 999;
 		}
 		.step-7 .wrap ul{
 			display: inline-block;
@@ -146,6 +153,7 @@
 	</script> -->
 </head>
 <body>
+	<audio src="../public/img/bg.mp3" id="bgMusic" autoplay="" loop="" style="position: fixed;left:0;top:0;opacity: 0;"></audio>
 	<div class='main'>
 		<div class="loader" id="animate-loader" style="_display: none !important;">
 			<div class="loader-bar">
@@ -174,6 +182,7 @@
 							</a></li>
 						</ul>
 					</div>
+					<a href="http://t1.miaoxing100.cn/H5/Mermaid/competitors.jsp"><img :src="imgs.back" alt="" class="back_btn"></a>
 				</div>
 				<div class="load-more" style="" v-show="is_loading && has_loaded">加载中...</div>
 			</div>
@@ -181,14 +190,19 @@
 			
 		</div>
 	</div>
-<script type="text/javascript" src="./public/js/libs/jquery.min.js"></script>
-<!-- <script type="text/javascript" src="http://jackgit.github.io/image-editor/assets/js/jquery.js"></script>  -->
-<script type="text/javascript" src="./public/js/libs/md5.js"></script>
+<script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/md5.js"></script>
 <script type="text/javascript" src="./public/js/common.js"></script>
-<script type="text/javascript" src="./public/js/libs/vue.min.js"></script>
+<script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/vue.min.js"></script>
 <script type="text/javascript">
+	var musicHow=localStorage.getItem("musicPlay");
+	if(musicHow=='1'){
+		document.getElementById('bgMusic').play();
+	}else{
+		document.getElementById('bgMusic').pause();
+	}
 	// images base path
-	var imageBase = './public/img/';
+	var imageBase = 'http://owvh0dbfc.bkt.clouddn.com/mermaid/public/img/';
 	var debug = false;
 	var editor = null;
 	var size = 10;
@@ -201,7 +215,7 @@
 		  		bg: imageBase + 'bg.png',
 		  		logo: imageBase + 'logo.png',
 		  		bottom: imageBase + 'bottom.png',
-		  		pre_btn: imageBase + 'pre_btn.png'
+		  		back: imageBase + 'back.png',
 		  	},
 		  	is_loading:false,
 		  	has_loaded: false,
@@ -213,7 +227,7 @@
 		    },
 		    step_7: {
 		    	imgs: {
-		    		bg: imageBase + 'step_7/bg.png',
+		    		bg: imageBase + 'step_7/bg.jpg',
 		    		load_more_txt: imageBase + 'step_7/load_more_txt.png',
 		    		top_banner: imageBase + 'step_7/top_banner.png'
 		    	}
@@ -240,7 +254,7 @@
 		  		this.loadPlayers();
 		  	},
 		  	loadPlayers: function(){
-		  		this.is_loading = true;
+		  		
 		  		var timestamp = new Date().valueOf();
 		  		var sig = 'size=' + size + '&timestamp=' + timestamp;
 		  			sig = md5(sig).toUpperCase();
@@ -253,6 +267,7 @@
 		  			self.is_loading = false;
 		  			if(ret.code == 200){
 		  				self.playerList = ret.PlayerList;
+		  				this.is_loading = true;
 		  				setTimeout(function(){
 		  					self.is_inited  = true;
 		  				},500);
@@ -340,11 +355,11 @@
 		p.init = function(){
 			var self = this;
 			self.loadImage([
-					imageBase + 'logo.png',
-					imageBase + 'step_7/bg.png',
+				imageBase + 'logo.png',
+				imageBase + 'step_7/bg.jpg',
 		    		imageBase + 'step_7/load_more_txt.png',
 		    		imageBase + 'step_7/top_banner.png'
-				]);
+			]);
 		}
 		var loader = new Loader();
 		window.loader = loader;

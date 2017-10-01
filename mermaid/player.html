@@ -7,14 +7,26 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="referrer" content="always">
-    <link rel="stylesheet" type="text/css" href="./public/css/base.css">
-    <link rel="stylesheet" type="text/css" href="./public/css/common.css">
-    <link rel="stylesheet" type="text/css" href="./public/css/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="./public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/common.css">
+    <link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/main.css">
     <style type="text/css">
     .flash {
         animation-iteration-count: infinite;
         animation-duration: 2s !important;
+    }
+    .step-5{
+        transition:all 1.5s cubic-bezier(0,0,0,1);
+        -webkit-transition:all 1.5s cubic-bezier(0,0,0,1);
+        -moz-transition:all 1.5s cubic-bezier(0,0,0,1);
+        -o-transition:all 1.5s cubic-bezier(0,0,0,1); 
+    }
+    .step-6{
+        transition:all 1.5s cubic-bezier(0,0,0,1);
+        -webkit-transition:all 1.5s cubic-bezier(0,0,0,1);
+        -moz-transition:all 1.5s cubic-bezier(0,0,0,1);
+        -o-transition:all 1.5s cubic-bezier(0,0,0,1); 
     }
     </style>
     <!-- 接入斐波那契 
@@ -114,17 +126,22 @@
 
 			});
 		}
-		document.body.addEventListener('touchmove', function (evt) {
-        //In this case, the default behavior is scrolling the body, which
-			//would result in an overflow.  Since we don't want that, we preventDefault.
-			if (!evt._isScroller) {
-				evt.preventDefault();
-			}
-		});
 	</script> -->
+    <script>
+        document.addEventListener('touchstart', function(event) {
+            // 判断默认行为是否可以被禁用
+            if (event.cancelable) {
+                // 判断默认行为是否已经被禁用
+                if (!event.defaultPrevented) {
+                    event.preventDefault();
+                }
+            }
+        }, false);
+    </script>
 </head>
 
 <body>
+    <audio src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/img/bg.mp3" id="bgMusic" autoplay="" loop="" style="position: fixed;left:0;top:0;opacity: 0;"></audio>
     <div class='main'>
         <div class="loader" id="animate-loader" style="_display: none !important;">
             <div class="loader-bar">
@@ -158,26 +175,31 @@
                     </div>
                 </div>
                 <div class="step step-6 bg-cover" :style="{backgroundImage:'url('+step_6.imgs.bg+')'}" v-show="step == 6">
-                    <img class="next-btn" :src="step_6.imgs.incounter_other_girls" @click="step_6_next()">
+                    <a href="http://t1.miaoxing100.cn/H5/Mermaid/competitors.jsp" class="next-btn" style="width: 60%;"><img  :src="step_6.imgs.incounter_other_girls" width="100%;"></a>
                     <img class="ps" style="bottom: 8rem;left:3rem;width: 11rem;" :src="step_6.imgs.long_press_btn">
                     <img class="ps" style="bottom: 6rem;left: 15rem;width: 8rem;" :src="step_6.imgs.qrcode">
-                    <img class="pre-btn" :src="imgs.pre_btn" @click="pre()">
                 </div>
                 <div class="" style="z-index:-1">
-                    <img id="bg" src="./public/img/step_5/raw_bg.png">
+                    <img id="bg" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/img/step_5/raw_bg.png" crossorigin="anonymous">
                     <img id="player" src="" crossorigin="anonymous">
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="./public/js/libs/zepto.min.js"></script>
-    <script type="text/javascript" src="./public/js/libs/hammer.js"></script>
-    <script type="text/javascript" src="./public/js/libs/md5.js"></script>
+    <script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/zepto.min.js"></script>
+    <script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/hammer.js"></script>
+    <script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/md5.js"></script>
     <script type="text/javascript" src="./public/js/common.js"></script>
-    <script type="text/javascript" src="./public/js/libs/vue.min.js"></script>
+    <script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/vue.min.js"></script>
     <script type="text/javascript">
+    var musicHow=localStorage.getItem("musicPlay");
+    if(musicHow=='1'){
+        document.getElementById('bgMusic').play();
+    }else{
+        document.getElementById('bgMusic').pause();
+    }
     // images base path
-    var imageBase = './public/img/';
+    var imageBase = 'http://owvh0dbfc.bkt.clouddn.com/mermaid/public/img/';
     var debug = false;
     var editor = null;
     $(function() {
@@ -190,14 +212,13 @@
                 imgs: {
                     bg: imageBase + 'bg.png',
                     logo: imageBase + 'logo.png',
-                    bottom: imageBase + 'bottom.png',
-                    pre_btn: imageBase + 'pre_btn.png'
+                    bottom: imageBase + 'bottom.png'
                 },
                 step_5: {
                     index: 1,
                     playerImg: '',
                     imgs: {
-                        bg: imageBase + 'step_5/bg.png',
+                        bg: imageBase + 'step_5/bg.jpg',
                         competitor_photos_txt: imageBase + 'step_5/competitor_photos_txt.png',
                         qrcode: imageBase + 'step_5/qrcode.png',
                         title: imageBase + 'step_5/title.png',
@@ -214,8 +235,7 @@
                         incounter_other_girls: imageBase + 'step_6/incounter_other_girls.png',
                         long_press_btn: imageBase + 'step_6/long_press_btn.png',
                         qrcode: imageBase + 'step_6/qrcode.png',
-                        time_schedule: imageBase + 'step_6/time_schedule.png',
-                        bg: imageBase + 'step_6/bg.png'
+                        bg: imageBase + 'step_6/bg.jpg'
                     }
                 },
             },
@@ -242,8 +262,6 @@
                     sig: sig
                 }
                 api_post('getPlayer', postData, function(ret) {
-                    console.log(ret);
-
                     if (ret.code == 200) {
                         $('#player').attr('src', ret.Player.img)
                         self.player = ret.Player;
@@ -256,6 +274,14 @@
                         alert(ret.msg || '服务器开小猜了');
                     }
                 });
+                var postData2 = {
+                    pid: pid,
+                    timestamp: timestamp,
+                    sig: sig
+                }
+                api_post('accumulatePop', postData2, function(ret) {
+                    console.log(ret)
+                });
 
                 //this.initImageEditor();
             },
@@ -266,15 +292,12 @@
                 start: function(key) {
 
                 },
-                pre: function(){
-                    this.step--;
-                },
                 generatePoster: function() {
                     var cvs = document.getElementById('present'),
                         ctx = cvs.getContext('2d');
 
                     var bg = new Image();
-                    bg.src = imageBase + 'step_5/raw_bg.png';
+                    bg.src = './public/img/' + 'step_5/raw_bg.png';
                     var player = $('#player').get(0);
                     //player.src = self.player.img;
                     cvs.width = 750;
@@ -300,7 +323,7 @@
                         ctx.restore();
 
                         self.step_5.poster = cvs.toDataURL("image/png") || '';
-                        //console.log(cvs.toDataURL());
+                        //app.$data.step = 6;
                         self.is_loading = false;
                         setTimeout(function() {
                             self.is_share = true;
@@ -333,31 +356,19 @@
             return null;
         }
 
-        var start_y = 0,
-            end_y = 0;
-        /*$('#app').on('touchstart',function(evt){
-        	console.log(evt);
+        var start_y = 0,end_y = 0;
+        $('#app').on('touchstart',function(evt){
         	start_y = evt.targetTouches[0].pageY;
-        	console.log(start_y);
         });
 
         $('#app').on('touchend',function(evt){
-        	console.log(evt);
         	end_y = evt.changedTouches[0].pageY;
         	if(start_y - end_y > 70){
-        		app.$data.step = 6;
-        	}
-        	console.log(end_y);
-        });*/
-        var hammertime = new Hammer(document.getElementById("app"));
-        /*var canClick = true;*/
-
-        hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-
-        hammertime.on("swipeup", function(e) {
-            app.$data.step = 6;
+        	     app.$data.step = 6;
+        	}else if(start_y - end_y <-70){
+                app.$data.step =5;
+            }
         });
-
 
     });
 
@@ -401,7 +412,7 @@
         p.init = function() {
             var self = this;
             self.loadImage([
-                imageBase + 'step_5/bg.png',
+                imageBase + 'step_5/bg.jpg',
                 imageBase + 'step_5/competitor_photos_txt.png',
                 imageBase + 'step_5/qrcode.png',
                 imageBase + 'step_5/title.png',

@@ -13,10 +13,18 @@ function api_post(method, data, callback) {
         type: 'post',
         data: data,
         success: function(ret) {
-            callback(ret);
+            if(ret.status == 200){
+                callback(ret);
+            }else{
+                callback(ret)
+                if(ret.show_err){
+                    dialog.error(ret.show_err);
+                }
+            }
         },
         error: function(error) {
-            alert('网络异常，请稍后再试');
+            alert(error);
+            console.log(error);
         }
     });
 }

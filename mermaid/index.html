@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable:no" />
@@ -7,111 +8,124 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="referrer" content="always">
-    <link rel="stylesheet" type="text/css" href="./public/css/base.css">
-    <link rel="stylesheet" type="text/css" href="./public/css/common.css">
-    <link rel="stylesheet" type="text/css" href="./public/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/common.css">
+    <link rel="stylesheet" type="text/css" href="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="./public/css/main.css?time=<%=System.currentTimeMillis()%>">
     <!-- 接入斐波那契 
     <script id="fiboDataSDK" type="text/javascript" src="http://sdk.fibodata.com/data/datasdk.min.js?pfid=AIDPmspP&appid=dab53a95772f351c456468ddd8db8061">
-	</script> -->
+    </script> -->
     <!-- 微信自定义分享 -->
     <!-- <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-	<script type="text/javascript">
-		   
-		var url = document.URL;
-		//alert(url);
-		var signature = "";
-		if(url.substr(url.length-1) == "?"){
-			signature = "<%=signature2%>" ;
-		}else{
-			signature = "<%=signature%>" ;
-		}
+    <script type="text/javascript">
+           
+        var url = document.URL;
+        //alert(url);
+        var signature = "";
+        if(url.substr(url.length-1) == "?"){
+            signature = "<%=signature2%>" ;
+        }else{
+            signature = "<%=signature%>" ;
+        }
 
-		var shareTitle = "星爷喊你来做鱼";   
-		var shareDesc = "电影《美人鱼》&剧版《美人鱼2》 演员甄选城市直通赛";
-		var shareImg = "http://t1.miaoxing100.cn/H5/Mermaid/public/img/logo2.png";
-		//var shareLink = "<%=basePath%>";
-		var shareLink = url;
-		//alert(shareLink);
+        var shareTitle = "星爷喊你来做鱼";   
+        var shareDesc = "电影《美人鱼》&剧版《美人鱼2》 演员甄选城市直通赛";
+        var shareImg = "http://t1.miaoxing100.cn/H5/Mermaid/public/img/logo2.png";
+        //var shareLink = "<%=basePath%>";
+        var shareLink = url;
+        //alert(shareLink);
 
-		var appId = "<%=appId%>";
-		var timestamp = "<%=timestamp%>";
-		var noncestr = "<%=noncestr%>";
-		//alert(appId+","+signature+","+timestamp+","+noncestr);
+        var appId = "<%=appId%>";
+        var timestamp = "<%=timestamp%>";
+        var noncestr = "<%=noncestr%>";
+        //alert(appId+","+signature+","+timestamp+","+noncestr);
 
-		wx.config({
-			debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-			appId: appId, // 必填，公众号的唯一标识
-			timestamp: timestamp, // 必填，生成签名的时间戳
-			nonceStr: noncestr, // 必填，生成签名的随机串
-			signature: signature, // 必填，签名，见附录1
-			jsApiList: [
-					'onMenuShareTimeline',
-					'onMenuShareAppMessage',
-					'showOptionMenu'
-				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: appId, // 必填，公众号的唯一标识
+            timestamp: timestamp, // 必填，生成签名的时间戳
+            nonceStr: noncestr, // 必填，生成签名的随机串
+            signature: signature, // 必填，签名，见附录1
+            jsApiList: [
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'showOptionMenu'
+                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 
-		});
+        });
 
-		wx.ready(function() {
-			share();
-			//$('#video').get(0).play();
-			//$('#video').get(0).pause();
-			//$('#video').get(0).play();
-		});
-		wx.error(function(res) {
-			alert('wx.error: ' + JSON.stringify(res));
-		});
+        wx.ready(function() {
+            share();
+            //$('#video').get(0).play();
+            //$('#video').get(0).pause();
+            //$('#video').get(0).play();
+        });
+        wx.error(function(res) {
+            alert('wx.error: ' + JSON.stringify(res));
+        });
 
-		function share() {
-			wx.showOptionMenu();
-			wx.onMenuShareTimeline({
-				title: shareTitle, // 分享标题
-				link: shareLink, // 分享链接
-				imgUrl: shareImg,
-				trigger: function(res) {
-					//    alert('用户点击分享到朋友圈');
-				},
-				success: function() {
-					// 用户确认分享后执行的回调函数
-					dataSDK.share('timeline');
-				},
-				cancel: function() {
-					// 用户取消分享后执行的回调函数
-					//alert('已取消');
-				} 
-				//,fail: function (res) {
-				//    alert('wx.onMenuShareTimeline:fail: '+JSON.stringify(res));
-				//}
-			});
-			wx.onMenuShareAppMessage({
-				title: shareTitle, // 分享标题
-				link: shareLink, // 分享链接
-				imgUrl: shareImg,
-				desc: shareDesc, // 分享描述
-				type: '', // 分享类型,music、video或link，不填默认为link
-				dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-				trigger: function(res) {
-					//alert('用户点击分享给朋友');
-				},
-				success: function(res) {
-					// 用户确认分享后执行的回调函数
-					//alert('已分享');
-					dataSDK.share('friend');
-				},
-				cancel: function(res) {
-						// 用户取消分享后执行的回调函数
-						//alert('已取消');
-					} //,fail: function (res) {
-					//    alert('wx.onMenuShareAppMessage:fail: '+JSON.stringify(res));
-					//}
+        function share() {
+            wx.showOptionMenu();
+            wx.onMenuShareTimeline({
+                title: shareTitle, // 分享标题
+                link: shareLink, // 分享链接
+                imgUrl: shareImg,
+                trigger: function(res) {
+                    //    alert('用户点击分享到朋友圈');
+                },
+                success: function() {
+                    // 用户确认分享后执行的回调函数
+                    dataSDK.share('timeline');
+                },
+                cancel: function() {
+                    // 用户取消分享后执行的回调函数
+                    //alert('已取消');
+                } 
+                //,fail: function (res) {
+                //    alert('wx.onMenuShareTimeline:fail: '+JSON.stringify(res));
+                //}
+            });
+            wx.onMenuShareAppMessage({
+                title: shareTitle, // 分享标题
+                link: shareLink, // 分享链接
+                imgUrl: shareImg,
+                desc: shareDesc, // 分享描述
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                trigger: function(res) {
+                    //alert('用户点击分享给朋友');
+                },
+                success: function(res) {
+                    // 用户确认分享后执行的回调函数
+                    //alert('已分享');
+                    dataSDK.share('friend');
+                },
+                cancel: function(res) {
+                        // 用户取消分享后执行的回调函数
+                        //alert('已取消');
+                    } //,fail: function (res) {
+                    //    alert('wx.onMenuShareAppMessage:fail: '+JSON.stringify(res));
+                    //}
 
-			});
-		}
-	</script> -->
+            });
+        }
+    </script> -->
+    <style>
+    .clearfix:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 0;
+    }
+
+    .clearfix {
+        zoom: 1;
+    }
+    </style>
 </head>
 
 <body>
+    <audio src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/img/bg.mp3" id="bgMusic" autoplay="" loop="" style="position: fixed;left:0;top:0;opacity: 0;"></audio>
     <div class='main'>
         <div class="loader" id="animate-loader" style="_display: none !important;">
             <div class="loader-bar">
@@ -119,25 +133,29 @@
             </div>
         </div>
         <div class="" id="app">
+            <div  v-show="tips== 1" style="position: absolute;left: 0;top:0;z-index: 99999;width: 100%;height: 100%;" >
+                <p style="position: absolute;left: 50%;top:50%;transform: translate(-50%,-50%);-webkit-transform: translate(-50%,-50%);-moz-transform: translate(-50%,-50%);-o-transform: translate(-50%,-50%);background: rgba(0,0,0,.8);padding: 10px 20px;font-size: 2rem;color:#fff;border-radius: 8px;">正在上传...</p>
+            </div>
             <div class="mask-1" id="mask-1" style="position: fixed;left:0;top:0;width: 100%;height:100%;background-color: rgba(0,0,0,0.6);"></div>
             <div class="game-wrap">
                 <!-- top logo -->
                 <img class="global-logo" :src="imgs.logo">
                 <!-- step 1 -->
-                <div class="step step-1 bg-cover animated fadeIn" v-bind:style="{backgroundImage:'url('+step_1.imgs.bg+')'}" v-show="step == 1">
+                <div class="step step-1 bg-cover animated fadeIn" v-bind:style="{backgroundImage:'url('+step_1.imgs.bg+')'}" v-show="step == 1" style="background-size: 100% 100%;">
                     <img class="bottom-bg" :src="imgs.bottom">
                     <img class="activity-rule-btn" :src="step_1.imgs.activity_rule_btn" @click="go_rule()">
                     <div class="bottom-btns">
                         <img :src="step_1.imgs.signup_btn" @click="incounter_girl()">
                         <br>
-                        <img :src="step_1.imgs.incounter_girl_btn" @click="step_6_next()">
+                        <a href="http://t1.miaoxing100.cn/H5/Mermaid/competitors.jsp"><img :src="step_1.imgs.incounter_girl_btn"></a>
                     </div>
+                    <img :src="imgs.music" alt="" class="musicBtn" @click="musicHome()" v-bind:class="{ rotating: isActive }">
                 </div>
                 <!-- step 2 -->
                 <div class="step step-2" v-bind:style="{backgroundImage: 'url(' + step_2.imgs.bg + ')'}" v-show="step == 2" style="background-size: 100% 100%;">
                     <div class="hot-area" v-for="(item, key) in step_2.hots" :style="{left: item.p.x + '%', top: item.p.y + '%'}" @click="signup(key)"></div>
                     <img class="next-btn" style="height: 1.4rem;" :src="step_2.imgs.tips">
-                    <img class="pre-btn" :src="imgs.pre_btn" @click="pre()">
+                    <img :src="imgs.back" alt="" class="back_btn" @click='backHome()'>
                 </div>
                 <!-- step 3 -->
                 <div class="step step-3 bg-cover" :style="{backgroundImage: 'url(' + imgs.bg + ')'}" v-show="step == 3">
@@ -153,27 +171,32 @@
                             <img style="position: relative;height: 3rem;" v-model="step_3.form.message" :src="step_3.imgs.next_btn" @click="step_3_next()">
                         </div>
                     </div>
-                    <img class="pre-btn" :src="imgs.pre_btn" @click="pre()">
+                    <img :src="imgs.back" alt="" class="back_btn" @click='backHome()'>
                 </div>
                 <!-- step 4 -->
-                <div class="step step-4 bg-full" v-show="step == 4" :style="{backgroundImage: 'url(' + imgs.bg + ')'}">
+                <div class="step step-4 bg-full" v-show="step == 4" :style="{backgroundImage: 'url(' + imgs.bg + ')'}" style="background-size:100% 100%;">
                     <div class="form">
                         <div class="picture-box bg-full pr" id="picture-box" :style="{backgroundImage: !step_4.bg?'url(' + step_4.imgs.picture_box_bg + ')' : 'none'}">
                             <input type="file" class="file-picker" id="filePicker" style="opacity: 0;">
                             <div class="editor" id="editor" v-show="step_4.bg"></div>
                             <!-- <canvas id="image-editor" style="width: 100%;height: 100%;background-color: rgba(0,0,0,0.5)" v-if="false"></canvas> -->
                         </div>
-                        <div class="tool-box">
-                            <img :src="step_4.imgs.bubble" style="margin-left: 0;" @click="setDecorate(0)">
-                            <img :src="step_4.imgs.fish_tail" @click="setDecorate(1)">
-                            <img :src="step_4.imgs.headdress" style="float: right;" @click="setDecorate(2)">
+                        <div class="tool-box clearfix">
+                            <img :src="step_4.imgs.bubble" style="margin-left: 0;float: left" @click="setDecorate(0)">
+                            <img :src="step_4.imgs.fish_tail" style="float: left" @click="setDecorate(1)">
+                            <img :src="step_4.imgs.headdress" style="float: left;" @click="setDecorate(2)">
                         </div>
+                        <div class="tool-box clearfix">
+                            <img :src="step_4.imgs.gx" style="float: left;margin-left: 0;" @click="setDecorate(3)">
+                            <img :src="step_4.imgs.my" style="float: left;" @click="setDecorate(4)">
+                            <img :src="step_4.imgs.ct" style="float: left;" @click="setDecorate(5)">
+                        </div>
+                        <img :src="imgs.back" alt="" class="back_btn" @click='backHome()'>
                     </div>
                     <img class="next-btn" style="margin-left:5.5rem;width:10rem;" :src="step_4.imgs.upload_btn" @click="step_4_next()">
                     <div class="again" id="again" :style="{backgroundImage: 'url(' + step_4.imgs.again + ')'}">
                         <input type="file" name="">
                     </div>
-                    <img class="pre-btn" :src="imgs.pre_btn" @click="pre()">
                 </div>
                 <div class="step step-5 bg-cover" :style="{backgroundImage:'url('+step_5.imgs.bg+')'}" v-show="step == 5">
                     <img :src="step_5.imgs.title" style="width: 23rem;margin-left: 2.5rem;margin-top:3rem;">
@@ -202,12 +225,13 @@
                         </ul>
                     </div>
                 </div>
-                <div class="step step-8 bg-cover" :style="{backgroundImage:'url('+step_8.imgs.bg+')'}" v-show="step == 8" @click="goStep(1);">
+                <div class="step step-8 bg-cover" :style="{backgroundImage:'url('+step_8.imgs.bg+')'}" v-show="step == 8">
                     <div class="wrap">
-                        <div>
-                            <img style="width:90%;margin-left:10%;margin-top:1rem;margin-bottom:0.5rem;" class="w-100" :src="step_8.imgs.top">
+                        <img :src="imgs.back" alt="" class="back_btn" @click="goStep(1);" style="position: fixed;top: 1rem;right: 1rem;width: 3rem;z-index: 999;">
+                        <div style="z-index: 99;position: absolute;left: 0;top:4%;">
+                            <img style="width:70%;margin-left:10%;margin-top:1rem;margin-bottom:0.5rem;" class="w-100" :src="step_8.imgs.top">
                         </div>
-                        <div style="background-color: #fff;margin:1rem auto;width: 90%;border-radius: 3px;margin-top:-3.5rem;padding:0rem 0.5rem;padding-bottom: 0.5rem;height:29rem;overflow-y: scroll;">
+                        <div style="background-color: #fff;margin:1rem auto;width: 90%;border-radius: 3px;margin-top:7rem;padding:0rem 0.5rem;padding-bottom: 0.5rem;height:29rem;overflow-y: scroll;z-index: 95">
                             <img style="width:90%;margin-left:5%;margin-top:0.9rem;" class="w-100" :src="step_8.imgs.title_1">
                             <pre style="padding:0.5rem 1rem;color:#333;white-space: pre-wrap;text-indent:2rem;font-size:12px;">
 2016年由周星驰执导，邓超、罗志祥、张雨绮、林允主演的《美人鱼》获得中国票房第二，仅次于战狼，创造当时33.6亿票房神话；
@@ -254,13 +278,13 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="./public/js/libs/zepto.min.js"></script>
-    <script type="text/javascript" src="./public/js/libs/hammer.js"></script>
+    <script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/zepto.min.js"></script>
+    <script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/hammer.js"></script>
     <script type="text/javascript" src="./public/js/libs/imageEditor.js"></script>
-    <script type="text/javascript" src="./public/js/libs/md5.js"></script>
-    <script type="text/javascript" src="./public/js/common.js?43433"></script>
-    <script type="text/javascript" src="./public/js/libs/vue.min.js"></script>
-    <script type="text/javascript" src="./public/js/main.js?time=<%=System.currentTimeMillis()%>"></script>
+    <script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/md5.js"></script>
+    <script type="text/javascript" src="./public/js/common.js"></script>
+    <script type="text/javascript" src="http://owvh0dbfc.bkt.clouddn.com/mermaid/public/js/libs/vue.min.js"></script>
+    <script type="text/javascript" src="./public/js/main.js"></script>
 </body>
 
 </html>
